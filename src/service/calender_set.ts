@@ -10,12 +10,27 @@ export const weeks = atom({
   default: ['Sun', 'Mon', 'Thu', 'Wed', 'Thr', 'Fri', 'Sat'],
 });
 
+export const getThisYear = selector({
+  key: 'getThisYear',
+  get: ({ get }) => {
+    const date = get(defaultCalenderDate);
+    return date.getFullYear();
+  },
+});
+
+export const getThisMonth = selector({
+  key: 'getThisMonth',
+  get: ({ get }) => {
+    const date = get(defaultCalenderDate);
+    return date.getMonth();
+  },
+});
+
 export const setCalender = selector({
   key: 'setCalender',
   get: ({ get }) => {
-    const createDate = get(defaultCalenderDate);
-    const viewYear = createDate.getFullYear();
-    const viewMonth = createDate.getMonth();
+    const viewYear = get(getThisYear);
+    const viewMonth = get(getThisMonth);
 
     //prevLast: 저번달 마지막날 , thisLas : 이번달 마지막날
     const prevLast = new Date(viewYear, viewMonth, 0);
