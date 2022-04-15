@@ -3,8 +3,7 @@ import { CalanderMaskingL, CalanderMaskingR, MainBoard } from '../common/shareSt
 import tape1 from '../images/tape1.png';
 import tape2 from '../images/tape10.png';
 import bg_pattern from '../images/bg_pattern.svg';
-
-import Calender from './calenter';
+import Calender from './calender';
 
 const MainWrap = styled.div`
   width: 100%;
