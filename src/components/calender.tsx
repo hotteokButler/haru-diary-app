@@ -103,6 +103,7 @@ const Calender = () => {
     } else if (id === 'today') {
       setMonth(new Date());
     }
+    console.log(id);
   };
 
   useEffect(() => {
@@ -119,7 +120,7 @@ const Calender = () => {
         <CalenderButton onClick={onChangeMonth} id="nextMonth">
           <i className="fa-solid fa-angle-right"></i>
         </CalenderButton>
-        <CalenderButton className="todayButton" onClick={onChangeMonth} id="prevMonth">
+        <CalenderButton className="todayButton" onClick={onChangeMonth} id="today">
           Today
         </CalenderButton>
       </CalenderTitle>
