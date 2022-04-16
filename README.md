@@ -1,6 +1,12 @@
-# 오늘의 하루 기록하는 일기장 HARU
+# 오늘의 하루를 기록하는 일기장 HARU
 
-# skills
+## 개요
+
+- 개요 :오늘의 하루를 기록하는 나만의 일기장
+- 진행 : 개인프로젝트
+- 기간 : 4.14~
+
+## skills
 
 - react.js
 - typescript
@@ -9,3 +15,5 @@
 - postman
 - Firebase
 - cloudinary
+
+## 기능
