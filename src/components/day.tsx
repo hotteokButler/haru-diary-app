@@ -13,7 +13,7 @@ export const DayElem = styled.p<{ check: string }>`
   &:hover {
     background-color: ${(props) =>
       props.check === 'week' ? props.theme.mainBoardColor : props.theme.bgColor};
-    color: ${(props) => props.theme.accentColor};
+    color: ${(props) => (props.check === 'week' ? props.theme.textColor : props.theme.accentColor)};
   }
 
   &:nth-child(7n) {
