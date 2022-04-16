@@ -21,7 +21,7 @@ export const getThisYear = selector({
 export const getThisMonth = selector({
   key: 'getThisMonth',
   get: ({ get }) => {
-    const date = get(defaultCalenderDate);
+    let date = get(defaultCalenderDate);
     return date.getMonth();
   },
 });
