@@ -7,11 +7,14 @@ import { DayElem } from './day';
 
 const CalenderTitle = styled.h2`
   position: relative;
-  padding: 0.5em 1em;
   margin: 0 0 1em;
   font-size: 1.2rem;
   border-bottom: 1px solid ${(props) => props.theme.liBgColor};
   text-align: center;
+  & span {
+    display: inline-block;
+    width: 100px;
+  }
 `;
 
 const CalenderButton = styled.button`
@@ -116,7 +119,7 @@ const Calender = () => {
         <CalenderButton onClick={onChangeMonth} id="prevMonth">
           <i className="fa-solid fa-angle-left"></i>
         </CalenderButton>
-        {checkMonth(new Date(month).getMonth())}
+        <span>{checkMonth(new Date(month).getMonth())}</span>
         <CalenderButton onClick={onChangeMonth} id="nextMonth">
           <i className="fa-solid fa-angle-right"></i>
         </CalenderButton>

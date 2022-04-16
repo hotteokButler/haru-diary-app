@@ -10,6 +10,7 @@ const MainWrap = styled.div`
   min-width: 320px;
   max-width: 1200px;
   margin: 0 auto;
+  overflow: hidden;
 `;
 const Header = styled.header`
   position: relative;
