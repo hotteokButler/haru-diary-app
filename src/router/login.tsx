@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { emailRegex, passwordRegex } from '../common/global_state';
 
 const LogInSection = styled.section`
   display: flex;
@@ -80,6 +82,8 @@ const Button = styled.button`
 const LogIn = ({ getFirebaseAuth }: any) => {
   const userEmail = useRef<HTMLInputElement>(null);
   const userPW = useRef<HTMLInputElement>(null);
+  const pwdRegex = useRecoilValue(passwordRegex);
+  const mailRegex = useRecoilValue(emailRegex);
   const navigator = useNavigate();
 
   const goToMain = () => {
@@ -98,6 +102,18 @@ const LogIn = ({ getFirebaseAuth }: any) => {
     });
   };
 
+  const registerPopup = () => {
+    const newEmail = prompt('newEmail', '');
+    const newPassword = prompt('newPassword', '');
+
+    if (!pwdRegex.test(newPassword!)) {
+      alert('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+    }
+    if (!mailRegex.test(newEmail!)) {
+      alert('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+    }
+    console.log(newEmail, newPassword);
+  };
   return (
     <>
       <LogInSection>
@@ -107,10 +123,19 @@ const LogIn = ({ getFirebaseAuth }: any) => {
             <label htmlFor="id">ID:</label>
             <input type="email" ref={userEmail} placeholder="Id" id="id" required />
             <label htmlFor="pwd">PW:</label>
-            <input type="password" ref={userPW} placeholder="PW" id="pwd" minLength={6} required />
+            <input
+              type="password"
+              ref={userPW}
+              placeholder="PW"
+              id="pwd"
+              minLength={6}
+              required
+              // 영문 대소문자, 숫자, 특수문자를 꼭 포함하여 6~15자
+              pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_-+=[]{}~?:;`|/]).{6,15}$"
+            />
             <input type="submit" value="LogIn" />
           </LogInForm>
-          <Button>등록하기</Button>
+          <Button onClick={registerPopup}>등록하기</Button>
           <Button onClick={loginWithGoogle}>Google로 로그인하기</Button>
         </LogInWrap>
       </LogInSection>
