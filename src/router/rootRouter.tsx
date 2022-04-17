@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import LogIn from './login';
 import Main from './main';
 import Memo from './memo';
 import MyDiary from './myDiary';
@@ -6,9 +7,10 @@ import MyDiary from './myDiary';
 const RootRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<Main />}>
-        <Route path="/myDiary" element={<MyDiary />} />
-        <Route path="/memo" element={<Memo />} />
+      <Route path="/" element={<LogIn />} />
+      <Route path="/main" element={<Main />}>
+        <Route path="/main/myDiary" element={<MyDiary />} />
+        <Route path="/main/memo" element={<Memo />} />
       </Route>
     </Routes>
   );

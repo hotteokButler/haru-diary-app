@@ -41,7 +41,7 @@ const DiaryName = styled.h1`
 `;
 
 const Main = () => {
-  const mainMatch = useMatch('/');
+  const mainMatch = useMatch('/main');
   const diaryMatch = useMatch('/myDiary');
   const memoMathch = useMatch('/memo');
 
@@ -51,13 +51,13 @@ const Main = () => {
         <DiaryName>...haru</DiaryName>
         <Nav>
           <TapButton isActive={mainMatch !== null}>
-            <Link to="/">Main</Link>
+            <Link to="/main">Main</Link>
           </TapButton>
           <TapButton isActive={diaryMatch !== null}>
-            <Link to="/myDiary">Diary</Link>
+            <Link to="/main/myDiary">Diary</Link>
           </TapButton>
           <TapButton isActive={memoMathch !== null}>
-            <Link to="/memo">Memo</Link>
+            <Link to="/main/memo">Memo</Link>
           </TapButton>
         </Nav>
       </Header>
