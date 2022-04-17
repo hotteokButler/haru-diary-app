@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { CalanderMaskingL, CalanderMaskingR, MainBoard } from '../common/shareStyle';
-import tape1 from '../images/tape1.png';
-import tape2 from '../images/tape10.png';
-import bg_pattern from '../images/bg_pattern.svg';
-import Calender from '../components/calender';
+import { MainBoard } from '../common/shareStyle';
+import { Link, Outlet, useMatch, useParams } from 'react-router-dom';
+import MainPageBoard from '../components/mainPageBoard';
 
 const MainWrap = styled.div`
   width: 100%;
@@ -15,7 +13,23 @@ const MainWrap = styled.div`
 const Header = styled.header`
   position: relative;
 `;
-const Nav = styled.nav``;
+const Nav = styled(MainBoard)`
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 3em;
+  margin: 0 auto 30px;
+`;
+
+const TapButton = styled.button<{ isActive?: boolean }>`
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.liBgColor};
+  color: ${(props) => (props.isActive ? props.theme.liTextColor : '')};
+  & a {
+    display: block;
+    padding: 0.5em;
+  }
+`;
+
 const MainContainer = styled.section`
   margin: 0 0 20px;
 `;
@@ -27,18 +41,29 @@ const DiaryName = styled.h1`
 `;
 
 const Main = () => {
+  const mainMatch = useMatch('/');
+  const diaryMatch = useMatch('/myDiary');
+  const memoMathch = useMatch('/memo');
+
   return (
     <MainWrap>
       <Header>
         <DiaryName>...haru</DiaryName>
-        <Nav></Nav>
+        <Nav>
+          <TapButton isActive={mainMatch !== null}>
+            <Link to="/">Main</Link>
+          </TapButton>
+          <TapButton isActive={diaryMatch !== null}>
+            <Link to="/myDiary">Diary</Link>
+          </TapButton>
+          <TapButton isActive={memoMathch !== null}>
+            <Link to="/memo">Memo</Link>
+          </TapButton>
+        </Nav>
       </Header>
       <MainContainer>
-        <MainBoard bgPattern={bg_pattern}>
-          <CalanderMaskingR image={tape1} />
-          <CalanderMaskingL image={tape2} />
-          <Calender />
-        </MainBoard>
+        {mainMatch?.pathname === '/' && <MainPageBoard />}
+        <Outlet />
       </MainContainer>
     </MainWrap>
   );

@@ -7,6 +7,7 @@ export const BasicTheme: DefaultTheme = {
   mainBoardColor: '#efefef',
   liBgColor: '#D9CCC1',
   liTextColor: '#59514C',
+  lightBorwnColor: '#9c8f87',
   lightPinkColor: '#F5E0E0',
   pinkBeigeColor: '#D9B1AD',
 };

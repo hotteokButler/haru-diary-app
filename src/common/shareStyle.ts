@@ -14,7 +14,7 @@ export const MainBoard = styled.section<{ bgPattern?: string }>`
 export const CalanderMaskingR = styled.div<{ image: string }>`
   position: absolute;
   right: -40px;
-  top: 0px;
+  top: 10px;
   width: 120px;
   height: 30px;
   background-size: 100% auto;
@@ -25,7 +25,7 @@ export const CalanderMaskingR = styled.div<{ image: string }>`
 
 export const CalanderMaskingL = styled(CalanderMaskingR)`
   left: -30px;
-  bottom: 0px;
+  bottom: 10px;
   top: auto;
   transform: rotate(-135deg);
 `;

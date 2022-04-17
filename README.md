@@ -37,3 +37,4 @@ Calender UI
           ├ wheather
           ├ feeling
           ├ text
+          ├ freeMemo
