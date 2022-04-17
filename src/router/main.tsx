@@ -3,7 +3,7 @@ import { MainBoard } from '../common/shareStyle';
 import { Link, Outlet, useMatch, useParams } from 'react-router-dom';
 import MainPageBoard from '../components/mainPageBoard';
 
-const MainWrap = styled.div`
+export const MainWrap = styled.div`
   width: 100%;
   min-width: 320px;
   max-width: 1200px;
