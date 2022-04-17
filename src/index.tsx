@@ -6,16 +6,18 @@ import App from './App';
 import { BasicTheme } from './common/theme';
 import '@fortawesome/fontawesome-free/js/all.js';
 import { RecoilRoot } from 'recoil';
+import FirebaseAuth from './service/firebase_auth_service';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
+const getFirebaseAuth = new FirebaseAuth();
 
 root.render(
   <React.StrictMode>
     <RecoilRoot>
       <BrowserRouter>
         <ThemeProvider theme={BasicTheme}>
-          <App />
+          <App getFirebaseAuth={getFirebaseAuth} />
         </ThemeProvider>
       </BrowserRouter>
     </RecoilRoot>

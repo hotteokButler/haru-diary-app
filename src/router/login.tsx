@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import FirebaseAuth from '../service/firebase_auth_service';
-import { MainWrap } from './main';
 
 const LogInSection = styled.section`
   display: flex;
@@ -78,15 +77,25 @@ const Button = styled.button`
   }
 `;
 
-const LogIn = () => {
+const LogIn = ({ getFirebaseAuth }: any) => {
   const userEmail = useRef<HTMLInputElement>(null);
   const userPW = useRef<HTMLInputElement>(null);
+  const navigator = useNavigate();
+
+  const goToMain = () => {
+    navigator('/main');
+  };
 
   const loginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const auth = new FirebaseAuth();
+    getFirebaseAuth.loginWithUserEmail(userEmail?.current?.value, userPW?.current?.value, goToMain);
+    event.currentTarget.reset();
+  };
 
-    auth.loginWithUserEmail(userEmail?.current?.value!, userPW?.current?.value!);
+  const loginWithGoogle = () => {
+    getFirebaseAuth.loginWihtGoogle().then(() => {
+      goToMain();
+    });
   };
 
   return (
@@ -102,7 +111,7 @@ const LogIn = () => {
             <input type="submit" value="LogIn" />
           </LogInForm>
           <Button>등록하기</Button>
-          <Button>Google로 로그인하기</Button>
+          <Button onClick={loginWithGoogle}>Google로 로그인하기</Button>
         </LogInWrap>
       </LogInSection>
     </>

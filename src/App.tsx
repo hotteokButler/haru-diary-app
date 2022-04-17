@@ -1,13 +1,14 @@
 import { GlobalStyle } from './common/reset';
 import RootRouter from './router/rootRouter';
+import { IFireBaseAuth } from './service/firebase_auth_service';
 
-function App() {
+const App = ({ getFirebaseAuth }: any) => {
   return (
     <>
       <GlobalStyle />
-      <RootRouter />
+      <RootRouter getFirebaseAuth={getFirebaseAuth} />
     </>
   );
-}
+};
 
 export default App;

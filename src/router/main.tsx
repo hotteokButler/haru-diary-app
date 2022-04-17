@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { MainBoard } from '../common/shareStyle';
-import { Link, Outlet, useMatch, useParams } from 'react-router-dom';
+import { Link, Outlet, useMatch, useNavigate, useParams } from 'react-router-dom';
 import MainPageBoard from '../components/mainPageBoard';
 
 export const MainWrap = styled.div`
@@ -10,24 +10,36 @@ export const MainWrap = styled.div`
   margin: 0 auto;
   overflow: hidden;
 `;
+
+const TabButton = styled.button<{ isActive?: boolean }>`
+  border-radius: 5px;
+  background-color: ${(props) => props.theme.liBgColor};
+  color: ${(props) => (props.isActive ? '#fff' : props.theme.liTextColor)};
+  & a {
+    display: block;
+    padding: 0.5em;
+  }
+`;
+
 const Header = styled.header`
   position: relative;
+  ${TabButton}.logout {
+    position: absolute;
+    top: 20px;
+    left: 4em;
+    padding: 0.8em;
+    font-size: 0.8rem;
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+    }
+  }
 `;
 const Nav = styled(MainBoard)`
   display: flex;
   justify-content: space-between;
   padding: 1em 3em;
   margin: 0 auto 30px;
-`;
-
-const TapButton = styled.button<{ isActive?: boolean }>`
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.liBgColor};
-  color: ${(props) => (props.isActive ? props.theme.liTextColor : '')};
-  & a {
-    display: block;
-    padding: 0.5em;
-  }
 `;
 
 const MainContainer = styled.section`
@@ -40,29 +52,38 @@ const DiaryName = styled.h1`
   text-align: center;
 `;
 
-const Main = () => {
+const Main = ({ getFirebaseAuth }: any) => {
   const mainMatch = useMatch('/main');
-  const diaryMatch = useMatch('/myDiary');
-  const memoMathch = useMatch('/memo');
+  const diaryMatch = useMatch('/main/myDiary');
+  const memoMathch = useMatch('/main/memo');
+  const navigator = useNavigate();
+
+  const handleLogout = () => {
+    getFirebaseAuth.logOut();
+    navigator('/');
+  };
 
   return (
     <MainWrap>
       <Header>
         <DiaryName>...haru</DiaryName>
+        <TabButton className="logout" onClick={handleLogout}>
+          LogOut
+        </TabButton>
         <Nav>
-          <TapButton isActive={mainMatch !== null}>
+          <TabButton isActive={mainMatch !== null}>
             <Link to="/main">Main</Link>
-          </TapButton>
-          <TapButton isActive={diaryMatch !== null}>
+          </TabButton>
+          <TabButton isActive={diaryMatch !== null}>
             <Link to="/main/myDiary">Diary</Link>
-          </TapButton>
-          <TapButton isActive={memoMathch !== null}>
+          </TabButton>
+          <TabButton isActive={memoMathch !== null}>
             <Link to="/main/memo">Memo</Link>
-          </TapButton>
+          </TabButton>
         </Nav>
       </Header>
       <MainContainer>
-        {mainMatch?.pathname === '/' && <MainPageBoard />}
+        {mainMatch?.pathname === '/main' && <MainPageBoard />}
         <Outlet />
       </MainContainer>
     </MainWrap>

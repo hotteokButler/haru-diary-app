@@ -4,11 +4,11 @@ import Main from './main';
 import Memo from './memo';
 import MyDiary from './myDiary';
 
-const RootRouter = () => {
+const RootRouter = ({ getFirebaseAuth }: any) => {
   return (
     <Routes>
-      <Route path="/" element={<LogIn />} />
-      <Route path="/main" element={<Main />}>
+      <Route path="/" element={<LogIn getFirebaseAuth={getFirebaseAuth} />} />
+      <Route path="/main" element={<Main getFirebaseAuth={getFirebaseAuth} />}>
         <Route path="/main/myDiary" element={<MyDiary />} />
         <Route path="/main/memo" element={<Memo />} />
       </Route>
