@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { defaultCalenderDate, setCalender, weeks } from '../service/calender_set';
-import { DayElem } from './day';
+import Day, { DayElem } from './day';
 
 const CalenderTitle = styled.h2`
   position: relative;
@@ -106,7 +106,6 @@ const Calender = () => {
     } else if (id === 'today') {
       setMonth(new Date());
     }
-    console.log(id);
   };
 
   useEffect(() => {
@@ -129,14 +128,12 @@ const Calender = () => {
       </CalenderTitle>
       <CalenderBox>
         {weekend.map((week) => (
-          <DayElem key={uuidv4()} check="week">
-            {week}
-          </DayElem>
+          <Day key={uuidv4()} check="week" text={week} />
         ))}
       </CalenderBox>
       <CalenderBox>
         {dates.map((date) => (
-          <DayElem
+          <Day
             key={uuidv4()}
             check={
               date === new Date().getDate() &&
@@ -145,9 +142,8 @@ const Calender = () => {
                 ? 'today'
                 : 'day'
             }
-          >
-            {date}
-          </DayElem>
+            text={date}
+          />
         ))}
       </CalenderBox>
     </>

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
-export const DayElem = styled.p<{ check: string }>`
+interface IDayElem {
+  check: string;
+}
+
+export const DayElem = styled.p<IDayElem>`
   position: relative;
-  font-size: ${(props) => (props.check === 'week' ? '14px' : '12px')};
+
   padding: 0.5em;
   width: calc(100% / 7);
   height: ${(props) => (props.check === 'week' ? '35px' : '55px')};
@@ -15,7 +19,11 @@ export const DayElem = styled.p<{ check: string }>`
       props.check === 'week' ? props.theme.mainBoardColor : props.theme.bgColor};
     color: ${(props) => (props.check === 'week' ? props.theme.textColor : props.theme.accentColor)};
   }
-
+  & span {
+    display: inline-block;
+    width: 100%;
+    font-size: ${(props) => (props.check === 'week' ? '14px' : '12px')};
+  }
   &:nth-child(7n) {
     color: #5454cf;
   }
@@ -27,11 +35,17 @@ export const DayElem = styled.p<{ check: string }>`
 
 interface IDayProps {
   check?: string;
+  text: number | string | undefined;
   className?: string;
 }
 
-const Day = ({ check }: IDayProps) => {
-  return <DayElem check={check!}></DayElem>;
-};
+const Day = memo(({ check, text }: IDayProps) => {
+  return (
+    <DayElem check={check!}>
+      <span>{text}</span>
+      <span>{check === 'today' && '😉'}</span>
+    </DayElem>
+  );
+});
 
 export default Day;

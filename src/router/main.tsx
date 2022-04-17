@@ -3,7 +3,7 @@ import { CalanderMaskingL, CalanderMaskingR, MainBoard } from '../common/shareSt
 import tape1 from '../images/tape1.png';
 import tape2 from '../images/tape10.png';
 import bg_pattern from '../images/bg_pattern.svg';
-import Calender from './calender';
+import Calender from '../components/calender';
 
 const MainWrap = styled.div`
   width: 100%;
@@ -15,6 +15,7 @@ const MainWrap = styled.div`
 const Header = styled.header`
   position: relative;
 `;
+const Nav = styled.nav``;
 const MainContainer = styled.section`
   margin: 0 0 20px;
 `;
@@ -30,6 +31,7 @@ const Main = () => {
     <MainWrap>
       <Header>
         <DiaryName>...haru</DiaryName>
+        <Nav></Nav>
       </Header>
       <MainContainer>
         <MainBoard bgPattern={bg_pattern}>
@@ -37,7 +39,6 @@ const Main = () => {
           <CalanderMaskingL image={tape2} />
           <Calender />
         </MainBoard>
-        <MainBoard></MainBoard>
       </MainContainer>
     </MainWrap>
   );
