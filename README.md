@@ -26,7 +26,7 @@ Calender UI
 
     User ID
     ⎿diary
-        ├ id : key
+        ├ id : key (uid)
           ├ id
           ├ publishedDate
           ├ title

@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { MainBoard } from '../common/shareStyle';
-import { Link, Outlet, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
-import MainPageBoard from '../components/mainPageBoard';
+import { Link, Outlet, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { IProps } from '../App';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { loginUserId } from '../common/global_state';
+import MainPageCalender from '../components/calender/mainPageBoard';
 
 export const MainWrap = styled.div`
   width: 100%;
@@ -56,8 +56,29 @@ const DiaryName = styled.h1`
   text-align: center;
 `;
 
+interface ILocationHistory {
+  id: string;
+}
+
+export interface IData {
+  id: {
+    id: string;
+    publishedDate: Date;
+    title: string;
+    keyword: string;
+    tapeTheme: string;
+    photoTheme: string;
+    photoURL: string;
+    wheather: string;
+    feeling: string;
+    text: string;
+    freeMemo: string;
+  };
+}
+
 const Main = ({ getFirebaseAuth }: IProps) => {
   const locationHistory = useLocation();
+  const userStateHistory = locationHistory?.state as ILocationHistory;
   const navigator = useNavigate();
   const mainMatch = useMatch('/main');
   const diaryMatch = useMatch('/main/myDiary');
@@ -76,7 +97,7 @@ const Main = ({ getFirebaseAuth }: IProps) => {
         setUserId(user.uid);
       }
     });
-  });
+  }, [getFirebaseAuth, userStateHistory, userId]);
 
   return (
     <MainWrap>
@@ -98,7 +119,7 @@ const Main = ({ getFirebaseAuth }: IProps) => {
         </Nav>
       </Header>
       <MainContainer>
-        {mainMatch?.pathname === '/main' && <MainPageBoard />}
+        {mainMatch?.pathname === '/main' && <MainPageCalender />}
         <Outlet />
       </MainContainer>
     </MainWrap>

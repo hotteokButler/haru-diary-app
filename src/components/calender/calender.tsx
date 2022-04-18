@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import { defaultCalenderDate, setCalender, weeks } from '../service/calender_set';
-import Day, { DayElem } from './day';
+import { defaultCalenderDate, setCalender, weeks } from '../../service/calender_set';
+import Day from './day';
 
 const CalenderTitle = styled.h2`
   position: relative;
