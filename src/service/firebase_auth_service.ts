@@ -6,6 +6,7 @@ import {
   updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
+  onAuthStateChanged,
 } from 'firebase/auth';
 
 export interface IFireBaseAuth {
@@ -26,17 +27,19 @@ class FirebaseAuth {
     this.googleProvider = new GoogleAuthProvider();
   }
 
-  createUserWithEmailBase(email: string, password: string) {
+  createUserWithEmailBase(email: string, password: string, profile?: string | null) {
     createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
       })
+      .then(() => this.setUserName(profile!))
       .catch((error) => console.log(error + 'error'));
   }
 
   loginWithUserEmail(email: string, password: string, callback: () => void) {
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
+        console.log(userCredential.user);
         callback();
       })
       .catch((error) => console.log(error + 'error'));
@@ -44,6 +47,10 @@ class FirebaseAuth {
 
   loginWithGoogle() {
     return signInWithPopup(this.auth, this.googleProvider);
+  }
+
+  onAuthChange(callback: () => void) {
+    onAuthStateChanged(this.auth, callback);
   }
 
   setUserName(userName: string) {

@@ -96,3 +96,18 @@ export const LogInForm = styled.form`
     }
   }
 `;
+
+export const Button = styled.button`
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 1em 1.5em;
+  background-color: ${(props) => props.theme.lightPinkColor};
+  color: ${(props) => props.theme.accentColor};
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+  }
+`;
