@@ -60,22 +60,6 @@ interface ILocationHistory {
   id: string;
 }
 
-export interface IData {
-  id: {
-    id: string;
-    publishedDate: Date;
-    title: string;
-    keyword: string;
-    tapeTheme: string;
-    photoTheme: string;
-    photoURL: string;
-    wheather: string;
-    feeling: string;
-    text: string;
-    freeMemo: string;
-  };
-}
-
 const Main = ({ getFirebaseAuth }: IProps) => {
   const locationHistory = useLocation();
   const userStateHistory = locationHistory?.state as ILocationHistory;
