@@ -55,8 +55,6 @@ const LogIn = ({ getFirebaseAuth }: any) => {
       alert('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
       return;
     }
-
-    console.log(newEmail, newPassword);
   };
   return (
     <>

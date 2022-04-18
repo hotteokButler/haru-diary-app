@@ -40,7 +40,7 @@ class FirebaseAuth {
       .catch((error) => console.log(error + 'error'));
   }
 
-  loginWihtGoogle() {
+  loginWithGoogle() {
     return signInWithPopup(this.auth, this.googleProvider);
   }
 

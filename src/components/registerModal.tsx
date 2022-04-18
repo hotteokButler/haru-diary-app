@@ -1,43 +1,31 @@
 import styled from 'styled-components';
-import {
-  LogInSection,
-  LogInWrap as RegisterWrap,
-  LogInForm as RegisterForm,
-} from '../common/shareStyle';
+import { LogInSection, LogInWrap, LogInForm as RegisterForm } from '../common/shareStyle';
 
 const RegisterSection = styled(LogInSection)`
   z-index: 999;
+`;
+
+const RegisterWrap = styled(LogInWrap)`
+  width: 85%;
 `;
 
 const RegisterModal = () => {
   return (
     <RegisterSection>
       <RegisterWrap>
-        <label htmlFor="id">NEW ID:</label>
-        <input type="email" placeholder="Id" id="id" required />
-        <label htmlFor="pwd">PW:</label>
-        <input type="password" placeholder="PW" id="pwd" minLength={6} required />
-        <input type="submit" value="LogIn" />
-        <RegisterForm></RegisterForm>
+        <RegisterForm>
+          <label htmlFor="id">
+            <span>NEW ID:</span>
+            <input type="email" placeholder="Id" id="id" required />
+          </label>
+          <label htmlFor="pwd">
+            <span>NEW PW:</span>
+            <input type="password" placeholder="PW" id="pwd" required />
+          </label>
+          <input type="submit" value="나만의 일기 시작하기" />
+        </RegisterForm>
       </RegisterWrap>
     </RegisterSection>
   );
 };
 export default RegisterModal;
-
-{
-  /* <LogInSection>
-  <LogInWrap>
-    <LogInTitle>Haru Diary</LogInTitle>
-    <LogInForm onSubmit={loginSubmit}>
-      <label htmlFor="id">ID:</label>
-      <input type="email" ref={userEmail} placeholder="Id" id="id" required />
-      <label htmlFor="pwd">PW:</label>
-      <input type="password" ref={userPW} placeholder="PW" id="pwd" minLength={6} required />
-      <input type="submit" value="LogIn" />
-    </LogInForm>
-    <Button onClick={registerPopup}>등록하기</Button>
-    <Button onClick={loginWithGoogle}>Google로 로그인하기</Button>
-  </LogInWrap>
-</LogInSection>; */
-}
