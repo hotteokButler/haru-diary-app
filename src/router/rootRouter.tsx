@@ -1,10 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
+import { IProps } from '../App';
 import LogIn from './login';
 import Main from './main';
 import Memo from './memo';
 import MyDiary from './myDiary';
 
-const RootRouter = ({ getFirebaseAuth }: any) => {
+const RootRouter = ({ getFirebaseAuth }: IProps) => {
   return (
     <Routes>
       <Route path="/" element={<LogIn getFirebaseAuth={getFirebaseAuth} />} />

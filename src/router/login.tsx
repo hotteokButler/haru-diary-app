@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { IProps } from '../App';
 import { emailRegex, passwordRegex } from '../common/global_state';
 import { LogInSection, LogInForm, LogInWrap, LogInTitle, Button } from '../common/shareStyle';
 import RegisterModal from '../components/registerModal';
 
-const LogIn = ({ getFirebaseAuth }: any) => {
+const LogIn = ({ getFirebaseAuth }: IProps) => {
   const userEmail = useRef<HTMLInputElement>(null);
   const userPW = useRef<HTMLInputElement>(null);
   const pwdRegex = useRecoilValue(passwordRegex);
@@ -13,9 +14,19 @@ const LogIn = ({ getFirebaseAuth }: any) => {
   const [registerModalView, setRegisterModalView] = useState(false);
   const navigator = useNavigate();
 
-  const goToMain = () => {
-    navigator('/main');
+  const goToMain = (userId: string) => {
+    navigator('/main', {
+      state: {
+        id: userId,
+      },
+    });
   };
+
+  useEffect(() => {
+    getFirebaseAuth?.onAuthChange!((user) => {
+      user && goToMain(user.uid);
+    });
+  }, []);
 
   const regexCheck = (email: string, pwd: string) => {
     if (!mailRegex.test(email)) {
@@ -31,25 +42,20 @@ const LogIn = ({ getFirebaseAuth }: any) => {
 
   const loginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (regexCheck(userEmail?.current?.value!, userPW?.current?.value!)) {
-      getFirebaseAuth.loginWithUserEmail(
-        userEmail?.current?.value,
-        userPW?.current?.value,
-        goToMain
-      );
+    if (regexCheck(userEmail.current?.value!, userPW.current?.value!)) {
+      getFirebaseAuth?.loginWithUserEmail(userEmail.current?.value!, userPW.current?.value!);
       event.currentTarget.reset();
     }
   };
 
   const loginWithGoogle = () => {
-    getFirebaseAuth.loginWithGoogle().then(() => {
-      goToMain();
-    });
+    getFirebaseAuth?.loginWithGoogle();
   };
 
   const registerModal = () => {
     setRegisterModalView((prev) => !prev);
   };
+
   return (
     <>
       <LogInSection>

@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { MainBoard } from '../common/shareStyle';
-import { Link, Outlet, useMatch, useNavigate, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
 import MainPageBoard from '../components/mainPageBoard';
+import { IProps } from '../App';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { loginUserId } from '../common/global_state';
 
 export const MainWrap = styled.div`
   width: 100%;
@@ -52,16 +56,27 @@ const DiaryName = styled.h1`
   text-align: center;
 `;
 
-const Main = ({ getFirebaseAuth }: any) => {
+const Main = ({ getFirebaseAuth }: IProps) => {
+  const locationHistory = useLocation();
+  const navigator = useNavigate();
   const mainMatch = useMatch('/main');
   const diaryMatch = useMatch('/main/myDiary');
   const memoMathch = useMatch('/main/memo');
-  const navigator = useNavigate();
+  const [userId, setUserId] = useRecoilState(loginUserId);
 
   const handleLogout = () => {
-    getFirebaseAuth.logOut();
-    navigator('/');
+    getFirebaseAuth?.logOut();
   };
+
+  useEffect(() => {
+    getFirebaseAuth?.onAuthChange((user) => {
+      if (!user) {
+        navigator('/');
+      } else {
+        setUserId(user.uid);
+      }
+    });
+  });
 
   return (
     <MainWrap>

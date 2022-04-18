@@ -7,14 +7,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
+  User,
 } from 'firebase/auth';
-
-export interface IFireBaseAuth {
-  createUserWithEmailBase: (email: string, password: string) => void;
-  loginWithUserEmail: (email: string, password: string, callback: () => void) => void;
-  setUserName: (userName: string) => void;
-  logOut: () => void;
-}
 
 class FirebaseAuth {
   auth: any;
@@ -31,16 +25,16 @@ class FirebaseAuth {
     createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        console.log(user);
       })
       .then(() => this.setUserName(profile!))
       .catch((error) => console.log(error + 'error'));
   }
 
-  loginWithUserEmail(email: string, password: string, callback: () => void) {
+  loginWithUserEmail(email: string, password: string) {
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         console.log(userCredential.user);
-        callback();
       })
       .catch((error) => console.log(error + 'error'));
   }
@@ -49,8 +43,8 @@ class FirebaseAuth {
     return signInWithPopup(this.auth, this.googleProvider);
   }
 
-  onAuthChange(callback: () => void) {
-    onAuthStateChanged(this.auth, callback);
+  onAuthChange(callback: (user: User | null) => void) {
+    onAuthStateChanged(this.auth, (user) => callback(user));
   }
 
   setUserName(userName: string) {

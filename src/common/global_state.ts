@@ -11,7 +11,7 @@ export const emailRegex = atom({
     /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
 });
 
-export const loginUser = atom({
-  key: 'loginUser',
-  default: null,
+export const loginUserId = atom({
+  key: 'loginUserId',
+  default: '',
 });

@@ -1,8 +1,22 @@
+import { User, UserCredential } from 'firebase/auth';
 import { GlobalStyle } from './common/reset';
 import RootRouter from './router/rootRouter';
-import { IFireBaseAuth } from './service/firebase_auth_service';
 
-const App = ({ getFirebaseAuth }: any) => {
+export type IProps = {
+  getFirebaseAuth?: {
+    createUserWithEmailBase(email: string, password: string, profile?: string | null): void;
+    loginWithUserEmail(email: string, password: string): void;
+    onAuthChange(callback: (user: User | null) => void): void;
+    setUserName(userName: string): void;
+    loginWithGoogle(): Promise<UserCredential>;
+    logOut(): any;
+  };
+  auth?: any;
+  googleProvider?: any;
+  firebaseApp?: any;
+};
+
+const App = ({ getFirebaseAuth }: IProps) => {
   return (
     <>
       <GlobalStyle />
