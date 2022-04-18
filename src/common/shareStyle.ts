@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import defaultMaskTapeR from '../images/tape9.png';
 
 export const MainBoard = styled.section<{ bgPattern?: string }>`
   position: relative;
@@ -11,7 +12,7 @@ export const MainBoard = styled.section<{ bgPattern?: string }>`
   background-image: url(${(props) => props.bgPattern});
 `;
 
-export const CalanderMaskingR = styled.div<{ image: string }>`
+export const CalanderMaskingR = styled.div<{ image?: string }>`
   position: absolute;
   right: -40px;
   top: 10px;
@@ -19,7 +20,7 @@ export const CalanderMaskingR = styled.div<{ image: string }>`
   height: 30px;
   background-size: 100% auto;
   background-repeat: no-repeat;
-  background-image: url(${(porps) => porps.image});
+  background-image: url(${(props) => (props.image ? props.image : defaultMaskTapeR)});
   transform: rotate(45deg);
 `;
 
