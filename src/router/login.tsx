@@ -104,14 +104,16 @@ const LogIn = ({ getFirebaseAuth }: any) => {
 
   const registerPopup = () => {
     const newEmail = prompt('newEmail', '');
+    if (!mailRegex.test(newEmail!)) {
+      alert('이메일 형식에 맞춰 기입해주세요');
+      return;
+    }
     const newPassword = prompt('newPassword', '');
-
     if (!pwdRegex.test(newPassword!)) {
       alert('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+      return;
     }
-    if (!mailRegex.test(newEmail!)) {
-      alert('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
-    }
+
     console.log(newEmail, newPassword);
   };
   return (
@@ -123,16 +125,7 @@ const LogIn = ({ getFirebaseAuth }: any) => {
             <label htmlFor="id">ID:</label>
             <input type="email" ref={userEmail} placeholder="Id" id="id" required />
             <label htmlFor="pwd">PW:</label>
-            <input
-              type="password"
-              ref={userPW}
-              placeholder="PW"
-              id="pwd"
-              minLength={6}
-              required
-              // 영문 대소문자, 숫자, 특수문자를 꼭 포함하여 6~15자
-              pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_-+=[]{}~?:;`|/]).{6,15}$"
-            />
+            <input type="password" ref={userPW} placeholder="PW" id="pwd" minLength={6} required />
             <input type="submit" value="LogIn" />
           </LogInForm>
           <Button onClick={registerPopup}>등록하기</Button>
