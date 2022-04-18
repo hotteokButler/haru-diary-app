@@ -7,7 +7,6 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth';
-import { firebaseApp } from './firebaseInit';
 
 export interface IFireBaseAuth {
   createUserWithEmailBase: (email: string, password: string) => void;
@@ -19,7 +18,10 @@ export interface IFireBaseAuth {
 class FirebaseAuth {
   auth: any;
   googleProvider: any;
-  constructor() {
+  firebaseApp: any;
+
+  constructor(firebaseApp: any) {
+    this.firebaseApp = firebaseApp;
     this.auth = getAuth(firebaseApp);
     this.googleProvider = new GoogleAuthProvider();
   }

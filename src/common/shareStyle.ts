@@ -75,7 +75,8 @@ export const LogInForm = styled.form`
     margin: 0 0 25px;
   }
   & input[type='email'],
-  & input[type='password'] {
+  & input[type='password'],
+  & input[type='text'] {
     font-size: 1rem;
     padding: 0.5em;
     border-radius: 4px;

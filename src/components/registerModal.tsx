@@ -22,6 +22,10 @@ const RegisterModal = () => {
             <span>NEW PW:</span>
             <input type="password" placeholder="PW" id="pwd" required />
           </label>
+          <label htmlFor="newName">
+            <span>NEW NAME:</span>
+            <input type="text" placeholder="Profile Name" id="newName" required />
+          </label>
           <input type="submit" value="나만의 일기 시작하기" />
         </RegisterForm>
       </RegisterWrap>

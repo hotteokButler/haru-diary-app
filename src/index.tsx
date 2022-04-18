@@ -7,10 +7,11 @@ import { BasicTheme } from './common/theme';
 import '@fortawesome/fontawesome-free/js/all.js';
 import { RecoilRoot } from 'recoil';
 import FirebaseAuth from './service/firebase_auth_service';
+import { firebaseApp } from './service/firebaseInit';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
-const getFirebaseAuth = new FirebaseAuth();
+const getFirebaseAuth = new FirebaseAuth(firebaseApp);
 
 root.render(
   <React.StrictMode>
