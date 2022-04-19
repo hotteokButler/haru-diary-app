@@ -86,7 +86,6 @@ export const checkFeelingIcon = (feel?: string): string | undefined => {
 };
 
 //weather
-
 export const checkWeatherIcon = (weather?: string | undefined): string => {
   switch (weather) {
     case 'sunny':
@@ -111,7 +110,9 @@ export const checkWeatherIcon = (weather?: string | undefined): string => {
       return rainbow;
   }
 };
-export const checkPhotoFRame = (frame?: string | undefined): string => {
+
+//
+export const checkPhotoFrame = (frame?: string | undefined): string => {
   switch (frame) {
     case 'theme1':
       return theme1;

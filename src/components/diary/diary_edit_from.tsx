@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {
   checkFeelingIcon,
   checkMakingTape,
-  checkPhotoFRame,
+  checkPhotoFrame,
   checkWeatherIcon,
 } from '../../common/global_function';
 import { CalanderMaskingL, CalanderMaskingR } from '../../common/shareStyle';
@@ -147,7 +147,7 @@ const DiaryEditForm = () => {
   };
 
   return (
-    <DiaryEditSection framePreview={checkPhotoFRame(selectedFrame)}>
+    <DiaryEditSection framePreview={checkPhotoFrame(selectedFrame)}>
       <MaskingTapePreviewL image={checkMakingTape(selectedTape)} />
       <MaskingTapePreviewR image={checkMakingTape(selectedTape)} />
       <DiaryEditFormElem>
