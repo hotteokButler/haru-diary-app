@@ -10,7 +10,7 @@ const DiaryToggleBtns = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 70px;
+  margin: 0 0 50px;
   padding: 0 20px 0;
 `;
 

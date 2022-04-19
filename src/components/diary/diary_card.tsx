@@ -1,9 +1,23 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { checkFeelingIcon, checkWeatherIcon } from '../../common/global_function';
 import { IData } from '../../common/global_state';
 import { CalanderMaskingL } from '../../common/shareStyle';
 import defaultFrame from '../../images/theme0.png';
+import sunny from '../../images/weather/sunny.svg';
 
+//animation
+
+const emojiMotion = keyframes`
+  from {
+  transform: translate(0, -50%) rotate(-10deg);
+  }
+  to {
+  transform: translate(0, -50%) rotate(10deg);
+  }
+`;
+
+//style
 const CardLi = styled.li<{ cradFrame?: string }>`
   position: relative;
   padding: 10px;
@@ -27,7 +41,7 @@ const CardFrame = styled.div`
 const CardMasking = styled(CalanderMaskingL)`
   width: 110px;
   left: 50%;
-  top: -25px;
+  top: -35px;
   transform: rotate(-195deg) translateX(50%);
 `;
 
@@ -45,13 +59,35 @@ const CardImg = styled.figure`
   }
 `;
 
-const CardDate = styled.p`
+const CardDate = styled.div`
+  position: relative;
   display: inline-block;
   padding: 0.5em;
   margin: 0 0 10px;
   font-size: 12px;
   color: #ccc;
   border-radius: 4px;
+`;
+
+export const WeatherIcon = styled.p<{ weathers?: string; feeling?: string }>`
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-image: url(${(props) => props.weathers || props.feeling});
+  background-position: center center;
+  transform: translate(0, -50%) rotate(-10deg);
+  animation: ${emojiMotion} 1s ease-in-out infinite alternate-reverse;
+`;
+
+export const FeelingIcon = styled(WeatherIcon)`
+  width: 30px;
+  height: 30px;
+  right: -75px;
+  animation: ${emojiMotion} 1.5s ease-in-out infinite alternate;
 `;
 
 const CardDescList = styled.dl``;
@@ -93,7 +129,7 @@ const DiaryCard = ({
   tapeTheme,
   photoFrameTheme,
   photoURL,
-  wheather,
+  weather,
   feeling,
   text,
   freeMemo,
@@ -117,7 +153,11 @@ const DiaryCard = ({
     <CardLi>
       <CardFrame>
         <CardMasking />
-        <CardDate>{parsedDate}</CardDate>
+        <CardDate>
+          {parsedDate}
+          <WeatherIcon weathers={checkWeatherIcon(weather)} />
+          <FeelingIcon feeling={checkFeelingIcon(feeling)} />
+        </CardDate>
         <CardImg>
           <img src={photoURL} alt="" />
         </CardImg>

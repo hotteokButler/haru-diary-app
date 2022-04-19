@@ -1,5 +1,4 @@
 import { atom } from 'recoil';
-import { v4 as uuidv4 } from 'uuid';
 
 export const passwordRegex = atom({
   key: 'passwordRegex',
@@ -28,8 +27,8 @@ export const userData = atom<{ [key: string]: IData }>({
       tapeTheme: 'default',
       photoFrameTheme: 'default',
       photoURL: 'https://cdn.pixabay.com/photo/2022/03/27/11/23/cat-7094808_960_720.jpg',
-      wheather: 'good',
-      feeling: 'good',
+      weather: 'hazy',
+      feeling: 'nice',
       text: ' I met so cute cat on the load that infront of my house. His caractor is so honiesty.I met so cute cat on the load that infront of my house. His caractor is so honiesty',
       freeMemo: 'memo text',
     },
@@ -41,8 +40,8 @@ export const userData = atom<{ [key: string]: IData }>({
       tapeTheme: 'default2',
       photoFrameTheme: 'default2',
       photoURL: 'https://cdn.pixabay.com/photo/2022/03/27/11/23/cat-7094808_960_720.jpg',
-      wheather: 'good2',
-      feeling: 'good2',
+      weather: 'sunny',
+      feeling: '',
       text: 'nice to meet you2',
       freeMemo: 'memo text2',
     },
@@ -57,7 +56,7 @@ export interface IData {
   tapeTheme: string;
   photoFrameTheme: string;
   photoURL: string;
-  wheather: string;
+  weather: string;
   feeling: string;
   text: string;
   freeMemo: string;
