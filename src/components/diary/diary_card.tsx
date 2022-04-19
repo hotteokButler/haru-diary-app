@@ -1,6 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { checkFeelingIcon, checkWeatherIcon } from '../../common/global_function';
+import {
+  checkFeelingIcon,
+  checkPhotoFrame,
+  checkWeatherIcon,
+  checkMakingTape,
+} from '../../common/global_function';
 import { IData } from '../../common/global_state';
 import { CalanderMaskingL } from '../../common/shareStyle';
 import defaultFrame from '../../images/theme0.png';
@@ -35,7 +40,8 @@ const CardLi = styled.li<{ cradFrame?: string }>`
 
 const CardFrame = styled.div`
   padding: 50px 30px 10px;
-  border: 1px solid #efefef;
+  border: 1px solid #f4f4f4;
+  background-color: #fcfcfc;
 `;
 
 const CardMasking = styled(CalanderMaskingL)`
@@ -137,22 +143,25 @@ const DiaryCard = ({
   //
   const [parsedDate, setParsedDate] = useState<string | number>();
 
-  const parseDate = (getDate: number) => {
-    const date = new Date(getDate);
-    const convertedDay = date.toString().split(' ')[0];
-    const convertedDate = date.toISOString().slice(0, 10).split('-').join('.');
-    const formatedDate = `[${convertedDate}]  ${convertedDay}`;
-    setParsedDate(formatedDate);
-  };
+  const parseDate = useCallback(
+    (getDate: number) => {
+      const date = new Date(getDate);
+      const convertedDay = date.toString().split(' ')[0];
+      const convertedDate = date.toISOString().slice(0, 10).split('-').join('.');
+      const formatedDate = `[${convertedDate}]  ${convertedDay}`;
+      setParsedDate(formatedDate);
+    },
+    [publishedDate]
+  );
 
   useEffect(() => {
     parseDate(publishedDate);
   }, [publishedDate]);
 
   return (
-    <CardLi>
+    <CardLi cradFrame={checkPhotoFrame(photoFrameTheme)}>
       <CardFrame>
-        <CardMasking />
+        <CardMasking image={checkMakingTape(tapeTheme)} />
         <CardDate>
           {parsedDate}
           <WeatherIcon weathers={checkWeatherIcon(weather)} />

@@ -8,6 +8,7 @@ declare module 'styled-components' {
     liBgColor: string;
     liTextColor: string;
     mainBoardColor: string;
+    pinkColor: string;
     pinkBeigeColor?: string;
     lightPinkColor?: string;
     lightBorwnColor?: srting;

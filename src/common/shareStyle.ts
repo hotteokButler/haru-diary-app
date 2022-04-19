@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import defaultMaskTapeR from '../images/tape11.png';
 
 export const MainBoard = styled.section<{ bgPattern?: string }>`
   position: relative;
   width: 90%;
   margin: 0 auto 70px;
-  padding: 2em;
+  padding: 2em 0;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.8);
   background-repeat: repeat;
@@ -112,4 +112,24 @@ export const Button = styled.button`
   &:hover {
     color: #fff;
   }
+`;
+
+export const spinnerRotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingSpinner = styled.span`
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 3px solid ${(props) => props.theme.pinkColor};
+  border-top: 3px solid #fcfcfc;
+  transform: rotate(0deg);
+  animation: ${spinnerRotate} 3s linear infinite;
 `;

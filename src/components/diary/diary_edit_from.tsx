@@ -1,14 +1,17 @@
 import React from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 import {
   checkFeelingIcon,
   checkMakingTape,
   checkPhotoFrame,
   checkWeatherIcon,
 } from '../../common/global_function';
-import { CalanderMaskingL, CalanderMaskingR } from '../../common/shareStyle';
+import { addBtnState, IData, listBtnState, userData } from '../../common/global_state';
+import { CalanderMaskingL, CalanderMaskingR, LoadingSpinner } from '../../common/shareStyle';
 import { WeatherIcon } from './diary_card';
 
 const DiaryEditSection = styled.section<{ framePreview?: string }>`
@@ -16,6 +19,7 @@ const DiaryEditSection = styled.section<{ framePreview?: string }>`
   padding: 15px;
   border-radius: 2px;
   background: url(${(props) => props.framePreview});
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.05);
 `;
 
 const MaskingTapePreviewL = styled(CalanderMaskingL)``;
@@ -24,7 +28,11 @@ const MaskingTapePreviewR = styled(CalanderMaskingR)``;
 const DiaryEditFormElem = styled.form`
   padding: 20px;
   background-color: #fcfcfc;
-  div {
+  input[type='submit'],
+  input[type='file'] {
+    display: none;
+  }
+  div:not(:nth-child(8)) {
     margin: 0 0 20px;
   }
   label {
@@ -58,6 +66,7 @@ const DiaryTitle = styled.div`
     max-width: 450px;
     padding: 5px 10px;
     border-bottom: 2px solid ${(props) => props.theme.lightPinkColor};
+    border-radius: 4px;
   }
 `;
 
@@ -103,6 +112,7 @@ const DiaryMaskingTape = styled.div``;
 const DiaryTextarea = styled.div`
   textarea {
     width: 100%;
+    padding: 10px;
     max-width: 100%;
     height: 300px;
     overflow: scroll-Y;
@@ -111,24 +121,71 @@ const DiaryTextarea = styled.div`
   }
 `;
 
+const DiaryKeyWord = styled(DiaryTitle)`
+  input[type='text'] {
+    width: 54%;
+  }
+  input[type='text']::placeholder {
+    font-size: 12px;
+  }
+`;
+
 const DiaryBtns = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px 30px;
+  background-color: #fcfcfc;
 `;
 
-const DiarySubmitBtn = styled.button``;
+const DiarySubmitBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48%;
+  padding: 10px;
+  background-color: ${(props) => props.theme.lightPinkColor};
+  color: ${(props) => props.theme.accentColor};
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 18px;
+  span:first-child {
+    display: inline-block;
+    width: calc(100% - 30px);
+    font-size: 12px;
+  }
+  &:hover {
+    color: #fcfcfc;
+    background-color: ${(props) => props.theme.liBgColor};
+  }
+`;
 
 //
 const DiaryEditForm = () => {
-  //
-  const defaultDate = new Date().toISOString().slice(0, 10);
+  //ref
+  const submitBtnRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const uploadImgBtnRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const titleRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const keywordRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const dateRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const MaskingTapeRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
+  const weatherRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
+  const feelingRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
+  const photoFrameRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
+  const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>;
 
+  //state
   const [selectedWeather, setSelectedWeather] = useState('');
   const [selectedFeeling, setSelectedFeeling] = useState('');
   const [selectedFrame, setSelectedFrame] = useState('');
   const [selectedTape, setSelectedTape] = useState('');
-  //
+  const setAddBtnState = useSetRecoilState(addBtnState);
+  const setListBtnState = useSetRecoilState(listBtnState);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useRecoilState(userData);
+  const defaultDate = new Date().toISOString().slice(0, 10);
+
+  //function
   const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const {
       currentTarget: { id },
@@ -146,22 +203,66 @@ const DiaryEditForm = () => {
     }
   };
 
+  const onSubmitDiary = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('sucess');
+    let newID = uuidv4();
+    const newData = {
+      ...data,
+      [newID]: {
+        id: newID,
+        publishedDate: dateRef.current.valueAsNumber,
+        title: titleRef.current.value || 'notitle',
+        keyword: keywordRef.current.value || 'unset',
+        tapeTheme: MaskingTapeRef.current.value || '',
+        photoFrameTheme: photoFrameRef.current.value || '',
+        photoURL: 'unset',
+        weather: weatherRef.current.value || '',
+        feeling: feelingRef.current.value || '',
+        text: textareaRef.current.value || '',
+        freeMemo: 'unset',
+      },
+    };
+    setData(newData);
+    event.currentTarget.reset();
+    setAddBtnState((prev) => !prev);
+    setListBtnState((prev) => !prev);
+  };
+
+  const onClickSubmitButtons = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const {
+      currentTarget: { id },
+    } = event;
+    if (id == 'submitNewDiary') {
+      submitBtnRef.current.click();
+    } else if (id === 'submitImgFile') {
+      uploadImgBtnRef.current.click();
+    }
+  };
+
+  //render
   return (
     <DiaryEditSection framePreview={checkPhotoFrame(selectedFrame)}>
       <MaskingTapePreviewL image={checkMakingTape(selectedTape)} />
       <MaskingTapePreviewR image={checkMakingTape(selectedTape)} />
-      <DiaryEditFormElem>
+      <DiaryEditFormElem onSubmit={onSubmitDiary}>
         <DiaryTitle>
           <label htmlFor="diaryTitle">Title</label>
-          <input type="text" name="" id="diaryTitle" />
+          <input
+            type="text"
+            name=""
+            id="diaryTitle"
+            ref={titleRef}
+            placeholder="Diary title here 😉"
+          />
         </DiaryTitle>
         <DiaryDate>
           <label htmlFor="diaryDate">Date</label>
-          <input type="date" name="" id="diaryDate" defaultValue={defaultDate} />
+          <input type="date" name="" id="diaryDate" defaultValue={defaultDate} ref={dateRef} />
         </DiaryDate>
         <DiaryWeather>
           <label htmlFor="diaryWeather">Weather</label>
-          <select name="" id="diaryWeather" onChange={onSelect}>
+          <select name="" id="diaryWeather" onChange={onSelect} ref={weatherRef}>
             <option value="default">How was weather today?</option>
             <option value="sunny">sunny</option>
             <option value="cloudy">cloudy</option>
@@ -177,7 +278,7 @@ const DiaryEditForm = () => {
         </DiaryWeather>
         <DiaryFeeling>
           <label htmlFor="diaryFeeling">Feeling</label>
-          <select name="" id="diaryFeeling" onChange={onSelect}>
+          <select name="" id="diaryFeeling" onChange={onSelect} ref={feelingRef}>
             <option value="default">How was your Feeling?</option>
             <option value="anger">anger</option>
             <option value="cry">cry</option>
@@ -199,7 +300,7 @@ const DiaryEditForm = () => {
         </DiaryFeeling>
         <DiaryPhotoFrame>
           <label htmlFor="diaryPhotoFrame">Photo Frame</label>
-          <select name="" id="diaryPhotoFrame" onChange={onSelect}>
+          <select name="" id="diaryPhotoFrame" onChange={onSelect} ref={photoFrameRef}>
             <option value="default">Choose Frame Pattern</option>
             <option value="theme1">Funky Orange</option>
             <option value="theme2">Modern Pattern</option>
@@ -211,7 +312,7 @@ const DiaryEditForm = () => {
         </DiaryPhotoFrame>
         <DiaryMaskingTape>
           <label htmlFor="diaryMaskingTape">Masking Tape</label>
-          <select name="" id="diaryMaskingTape" onChange={onSelect}>
+          <select name="" id="diaryMaskingTape" onChange={onSelect} ref={MaskingTapeRef}>
             <option value="default">Choose Tape Pattern</option>
             <option value="tape1">theme1</option>
             <option value="tape2">theme2</option>
@@ -228,9 +329,41 @@ const DiaryEditForm = () => {
           </select>
         </DiaryMaskingTape>
         <DiaryTextarea>
-          <textarea name="" id="diaryText"></textarea>
+          <textarea
+            name=""
+            id="diaryText"
+            placeholder="Write your diary here 😎"
+            ref={textareaRef}
+          ></textarea>
         </DiaryTextarea>
+        <input type="submit" value="submitBtn" ref={submitBtnRef} />
+        <input type="file" name="file" accept="image/*" ref={uploadImgBtnRef} />
+        <DiaryKeyWord>
+          <label htmlFor="diaryKeyword">Today's Keyword</label>
+          <input
+            type="text"
+            name=""
+            id="diaryKeyword"
+            ref={keywordRef}
+            placeholder="Write Today's input 😏"
+          />
+        </DiaryKeyWord>
       </DiaryEditFormElem>
+      <DiaryBtns>
+        <DiarySubmitBtn onClick={onClickSubmitButtons} id="submitImgFile">
+          {loading ? (
+            <>
+              <span>uploading...</span>
+              <LoadingSpinner />
+            </>
+          ) : (
+            '사진 올리기'
+          )}
+        </DiarySubmitBtn>
+        <DiarySubmitBtn onClick={onClickSubmitButtons} id="submitNewDiary">
+          일기 생성하기
+        </DiarySubmitBtn>
+      </DiaryBtns>
     </DiaryEditSection>
   );
 };

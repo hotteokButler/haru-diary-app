@@ -1,17 +1,29 @@
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { addBtnState, listBtnState } from '../common/global_state';
 import { MainBoard } from '../common/shareStyle';
 import DiaryEditForm from '../components/diary/diary_edit_from';
 import DiaryList from '../components/diary/diary_list';
 import bg_pattern from '../images/bg_pattern.svg';
 import maker_purple from '../images/marker/marker_purple.png';
 
+const DiaryMainBoard = styled(MainBoard)``;
+
+const DiaryCardSection = styled.section`
+  padding: 50px 30px 30px;
+  max-height: 200vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const DiaryToggleBtns = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 50px;
-  padding: 0 20px 0;
+  padding: 0 80px 10px;
 `;
 
 const DiaryToggleButton = styled.button<{ isActive: boolean }>`
@@ -40,8 +52,8 @@ const DiaryToggleButton = styled.button<{ isActive: boolean }>`
 `;
 
 const MyDiary = () => {
-  const [diaryListBtn, setDiaryListBtn] = useState(true);
-  const [diaryAddBtn, setDiaryAddBtn] = useState(false);
+  const [diaryListBtn, setDiaryListBtn] = useRecoilState(listBtnState);
+  const [diaryAddBtn, setDiaryAddBtn] = useRecoilState(addBtnState);
 
   const onButtunClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
@@ -49,15 +61,14 @@ const MyDiary = () => {
     } = event;
     if (id === 'diaryList') {
       setDiaryListBtn((prev) => !prev);
-      setDiaryAddBtn(false);
+      setDiaryAddBtn((prev) => !prev);
     } else if (id === 'diaryAdd') {
       setDiaryAddBtn((prev) => !prev);
-      setDiaryListBtn(false);
+      setDiaryListBtn((prev) => !prev);
     }
   };
-
   return (
-    <MainBoard bgPattern={bg_pattern}>
+    <DiaryMainBoard bgPattern={bg_pattern}>
       <DiaryToggleBtns>
         <DiaryToggleButton id="diaryList" onClick={onButtunClick} isActive={diaryListBtn}>
           <span className="diaryButtonBk"></span>
@@ -68,9 +79,11 @@ const MyDiary = () => {
           <span className="buttonName">Add Diary</span>
         </DiaryToggleButton>
       </DiaryToggleBtns>
-      {diaryListBtn && <DiaryList />}
-      {diaryAddBtn && <DiaryEditForm />}
-    </MainBoard>
+      <DiaryCardSection>
+        {diaryListBtn && <DiaryList />}
+        {diaryAddBtn && <DiaryEditForm />}
+      </DiaryCardSection>
+    </DiaryMainBoard>
   );
 };
 

@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { defaultCalenderDate, setCalender, weeks } from '../../service/calender_set';
 import Day from './day';
 
+const CalenderSection = styled.section`
+  padding: 2em;
+`;
 const CalenderTitle = styled.h2`
   position: relative;
   margin: 0 0 1em;
@@ -113,7 +116,7 @@ const Calender = () => {
   }, []);
 
   return (
-    <>
+    <CalenderSection>
       <CalenderTitle>
         <CalenderButton onClick={onChangeMonth} id="prevMonth">
           <i className="fa-solid fa-angle-left"></i>
@@ -146,7 +149,7 @@ const Calender = () => {
           />
         ))}
       </CalenderBox>
-    </>
+    </CalenderSection>
   );
 };
 
