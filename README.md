@@ -22,6 +22,14 @@ Calender UI
 
 <img src="https://user-images.githubusercontent.com/90666180/163660851-2be93bb9-cf37-403c-ac14-4820595c4eb5.gif" width='350px'/>
 
+**지금까지 진행사항**
+
+1. MainCalender
+2. DiaryList
+3. DiaryAdd(Edit)Form
+
+<img src="https://user-images.githubusercontent.com/90666180/163992723-250c936d-1df5-4539-b88c-5b13c2709e4b.gif" width='350px'/>
+
 ## Data 구조
 
     User ID
