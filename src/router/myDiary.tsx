@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { MainBoard } from '../common/shareStyle';
+import DiaryEditForm from '../components/diary/diary_edit_from';
 import DiaryList from '../components/diary/diary_list';
 import bg_pattern from '../images/bg_pattern.svg';
 import maker_purple from '../images/marker/marker_purple.png';
@@ -68,6 +69,7 @@ const MyDiary = () => {
         </DiaryToggleButton>
       </DiaryToggleBtns>
       {diaryListBtn && <DiaryList />}
+      {diaryAddBtn && <DiaryEditForm />}
     </MainBoard>
   );
 };

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import defaultMaskTapeR from '../images/tape9.png';
+import defaultMaskTapeR from '../images/tape11.png';
 
 export const MainBoard = styled.section<{ bgPattern?: string }>`
   position: relative;
@@ -8,7 +8,8 @@ export const MainBoard = styled.section<{ bgPattern?: string }>`
   padding: 2em;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.8);
-  background-size: cover;
+  background-repeat: repeat;
+  background-size: auto;
   background-image: url(${(props) => props.bgPattern});
 `;
 

@@ -27,8 +27,8 @@ const CardFrame = styled.div`
 const CardMasking = styled(CalanderMaskingL)`
   width: 110px;
   left: 50%;
-  top: -20px;
-  transform: rotate(-190deg) translateX(50%);
+  top: -25px;
+  transform: rotate(-195deg) translateX(50%);
 `;
 
 const CardImg = styled.figure`
@@ -98,14 +98,14 @@ const DiaryCard = ({
   text,
   freeMemo,
 }: IData) => {
+  //
   const [parsedDate, setParsedDate] = useState<string | number>();
 
   const parseDate = (getDate: number) => {
     const date = new Date(getDate);
-    const dateArr = date.toString().split(' ').slice(0, 4);
-    const formatedDate = `[${dateArr[3]}.${date.getMonth() === 11 ? 12 : date.getMonth() + 1}.${
-      dateArr[2]
-    }]  ${dateArr[0]}`;
+    const convertedDay = date.toString().split(' ')[0];
+    const convertedDate = date.toISOString().slice(0, 10).split('-').join('.');
+    const formatedDate = `[${convertedDate}]  ${convertedDay}`;
     setParsedDate(formatedDate);
   };
 
