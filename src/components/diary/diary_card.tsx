@@ -119,6 +119,7 @@ const CardDescTitle = styled.dt`
 
 const CardDescText = styled.dd`
   display: -webkit-box;
+  margin: 0 0 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;

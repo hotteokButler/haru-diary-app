@@ -118,6 +118,7 @@ const DiaryTextarea = styled.div`
     overflow: scroll-Y;
     resize: none;
     border-radius: 4px;
+    line-height: 1.4em;
   }
 `;
 
