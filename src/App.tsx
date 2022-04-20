@@ -1,4 +1,5 @@
 import { User, UserCredential } from 'firebase/auth';
+import { IData } from './common/global_state';
 import { GlobalStyle } from './common/reset';
 import RootRouter from './router/rootRouter';
 
@@ -14,13 +15,20 @@ export type IProps = {
   auth?: any;
   googleProvider?: any;
   firebaseApp?: any;
+  firebaseDB?: any;
+  diaryRepository?: {
+    syncDiaryData(userId: string, onUpdate: (data: any) => any): any;
+    saveDiary(userId: string, diaryData: IData): void;
+    removeDiary(userId: string, cardId: string): void;
+    readDiary(uid: string): void;
+  };
 };
 
-const App = ({ getFirebaseAuth }: IProps) => {
+const App = ({ getFirebaseAuth, diaryRepository }: IProps) => {
   return (
     <>
       <GlobalStyle />
-      <RootRouter getFirebaseAuth={getFirebaseAuth} />
+      <RootRouter getFirebaseAuth={getFirebaseAuth} diaryRepository={diaryRepository} />
     </>
   );
 };

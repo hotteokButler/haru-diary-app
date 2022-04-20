@@ -1,17 +1,19 @@
 import React from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { IProps } from '../../App';
 import {
   checkFeelingIcon,
   checkMakingTape,
   checkPhotoFrame,
   checkWeatherIcon,
 } from '../../common/global_function';
-import { addBtnState, IData, listBtnState, userData } from '../../common/global_state';
+import { addBtnState, listBtnState, loginUserId } from '../../common/global_state';
 import { CalanderMaskingL, CalanderMaskingR, LoadingSpinner } from '../../common/shareStyle';
+import ImageUploader from '../../service/image_uploader';
 import { WeatherIcon } from './diary_card';
 
 const DiaryEditSection = styled.section<{ framePreview?: string }>`
@@ -162,7 +164,11 @@ const DiarySubmitBtn = styled.button`
 `;
 
 //
-const DiaryEditForm = () => {
+
+const imageUpload = new ImageUploader();
+
+//
+const DiaryEditForm = ({ diaryRepository }: IProps) => {
   //ref
   const submitBtnRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const uploadImgBtnRef = useRef() as React.MutableRefObject<HTMLInputElement>;
@@ -180,11 +186,13 @@ const DiaryEditForm = () => {
   const [selectedFeeling, setSelectedFeeling] = useState('');
   const [selectedFrame, setSelectedFrame] = useState('');
   const [selectedTape, setSelectedTape] = useState('');
+  const [getFileURL, setFileURL] = useState('');
+  const [getFileName, setFileName] = useState('');
   const setAddBtnState = useSetRecoilState(addBtnState);
   const setListBtnState = useSetRecoilState(listBtnState);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useRecoilState(userData);
   const defaultDate = new Date().toISOString().slice(0, 10);
+  const userID = useRecoilValue(loginUserId);
 
   //function
   const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -204,27 +212,34 @@ const DiaryEditForm = () => {
     }
   };
 
+  const onFileChange = async (event: any) => {
+    setLoading(true);
+    const file = event.currentTarget.files[0];
+    const uploadFile = await imageUpload.upload(file);
+    setFileURL(uploadFile.url);
+    setFileName(uploadFile.original_filename);
+    setLoading(false);
+  };
+
   const onSubmitDiary = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('sucess');
     let newID = uuidv4();
-    const newData = {
-      ...data,
-      [newID]: {
-        id: newID,
-        publishedDate: dateRef.current.valueAsNumber,
-        title: titleRef.current.value || 'notitle',
-        keyword: keywordRef.current.value || 'unset',
-        tapeTheme: MaskingTapeRef.current.value || '',
-        photoFrameTheme: photoFrameRef.current.value || '',
-        photoURL: 'unset',
-        weather: weatherRef.current.value || '',
-        feeling: feelingRef.current.value || '',
-        text: textareaRef.current.value || '',
-        freeMemo: 'unset',
-      },
+
+    const newCard = {
+      id: newID,
+      publishedDate: dateRef.current.valueAsNumber,
+      title: titleRef.current.value || 'notitle',
+      keyword: keywordRef.current.value || 'unset',
+      tapeTheme: MaskingTapeRef.current.value || '',
+      photoFrameTheme: photoFrameRef.current.value || '',
+      photoURL: getFileURL || 'unset',
+      weather: weatherRef.current.value || '',
+      feeling: feelingRef.current.value || '',
+      text: textareaRef.current.value || '',
+      freeMemo: 'unset',
     };
-    setData(newData);
+
+    diaryRepository?.saveDiary(userID, newCard);
     event.currentTarget.reset();
     setAddBtnState((prev) => !prev);
     setListBtnState((prev) => !prev);
@@ -338,7 +353,13 @@ const DiaryEditForm = () => {
           ></textarea>
         </DiaryTextarea>
         <input type="submit" value="submitBtn" ref={submitBtnRef} />
-        <input type="file" name="file" accept="image/*" ref={uploadImgBtnRef} />
+        <input
+          type="file"
+          name="file"
+          accept="image/*"
+          onChange={onFileChange}
+          ref={uploadImgBtnRef}
+        />
         <DiaryKeyWord>
           <label htmlFor="diaryKeyword">Today's Keyword</label>
           <input
@@ -358,7 +379,7 @@ const DiaryEditForm = () => {
               <LoadingSpinner />
             </>
           ) : (
-            '사진 올리기'
+            getFileName || '사진 등록하기'
           )}
         </DiarySubmitBtn>
         <DiarySubmitBtn onClick={onClickSubmitButtons} id="submitNewDiary">

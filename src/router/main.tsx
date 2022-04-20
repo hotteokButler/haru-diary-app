@@ -56,7 +56,7 @@ const DiaryName = styled.h1`
   text-align: center;
 `;
 
-interface ILocationHistory {
+export interface ILocationHistory {
   id: string;
 }
 

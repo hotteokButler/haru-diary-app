@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled, { keyframes } from 'styled-components';
 import {
   checkFeelingIcon,
@@ -6,7 +7,7 @@ import {
   checkWeatherIcon,
   checkMakingTape,
 } from '../../common/global_function';
-import { IData } from '../../common/global_state';
+import { IData, loginUserId } from '../../common/global_state';
 import { CalanderMaskingL } from '../../common/shareStyle';
 import defaultFrame from '../../images/theme0.png';
 import sunny from '../../images/weather/sunny.svg';
@@ -25,7 +26,7 @@ const emojiMotion = keyframes`
 //style
 const CardLi = styled.li<{ cradFrame?: string }>`
   position: relative;
-  padding: 10px;
+  padding: 10px 10px 40px;
   width: 90%;
   max-width: 450px;
   margin: 0 auto 50px;
@@ -36,6 +37,13 @@ const CardLi = styled.li<{ cradFrame?: string }>`
   a {
     display: block;
   }
+  &:hover {
+    button {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  transition: 0.4s;
 `;
 
 const CardFrame = styled.div`
@@ -128,6 +136,39 @@ const CardDescText = styled.dd`
   color: ${(props) => props.theme.textColor};
 `;
 
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  background-color: ${(props) => props.theme.liBgColor};
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  &:hover {
+    color: #fff;
+    background-color: ${(props) => props.theme.pinkBeigeColor};
+  }
+`;
+
+const FixButton = styled(DeleteButton)`
+  top: 45px;
+`;
+
+//interface
+interface IDiaryCard extends IData {
+  firebaseDB?: any;
+  diaryRepository?: {
+    syncDiaryData(userId: string, onUpdate: (data: any) => any): any;
+    saveDiary(userId: string, diaryData: IData): void;
+    removeDiary(userId: string, cardId: string): void;
+    readDiary(uid: string): void;
+  };
+}
+
+//component
 const DiaryCard = ({
   id,
   publishedDate,
@@ -140,10 +181,11 @@ const DiaryCard = ({
   feeling,
   text,
   freeMemo,
-}: IData) => {
+  diaryRepository,
+}: IDiaryCard) => {
   //
   const [parsedDate, setParsedDate] = useState<string | number>();
-
+  const userID = useRecoilValue(loginUserId);
   const parseDate = useCallback(
     (getDate: number) => {
       const date = new Date(getDate);
@@ -159,6 +201,9 @@ const DiaryCard = ({
     parseDate(publishedDate);
   }, [publishedDate]);
 
+  const deleteDiary = () => {
+    diaryRepository?.removeDiary(userID, id);
+  };
   return (
     <CardLi cradFrame={checkPhotoFrame(photoFrameTheme)}>
       <CardFrame>
@@ -176,6 +221,8 @@ const DiaryCard = ({
           <CardDescText>{text}</CardDescText>
         </CardDescList>
       </CardFrame>
+      <DeleteButton onClick={deleteDiary}>삭제</DeleteButton>
+      <FixButton>수정</FixButton>
     </CardLi>
   );
 };

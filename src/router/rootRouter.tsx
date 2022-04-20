@@ -5,12 +5,12 @@ import Main from './main';
 import Memo from './memo';
 import MyDiary from './myDiary';
 
-const RootRouter = ({ getFirebaseAuth }: IProps) => {
+const RootRouter = ({ getFirebaseAuth, diaryRepository }: IProps) => {
   return (
     <Routes>
       <Route path="/" element={<LogIn getFirebaseAuth={getFirebaseAuth} />} />
       <Route path="/main" element={<Main getFirebaseAuth={getFirebaseAuth} />}>
-        <Route path="/main/myDiary" element={<MyDiary />} />
+        <Route path="/main/myDiary" element={<MyDiary diaryRepository={diaryRepository} />} />
         <Route path="/main/memo" element={<Memo />} />
       </Route>
     </Routes>

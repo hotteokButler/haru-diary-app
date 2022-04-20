@@ -1,4 +1,4 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
 export const passwordRegex = atom({
   key: 'passwordRegex',
@@ -14,25 +14,6 @@ export const emailRegex = atom({
 export const loginUserId = atom({
   key: 'loginUserId',
   default: '',
-});
-
-export const userData = atom<{ [key: string]: IData }>({
-  key: 'userData',
-  default: {
-    '1': {
-      id: '1',
-      publishedDate: Date.now(),
-      title: 'Happy To Meet',
-      keyword: 'keyword',
-      tapeTheme: 'tape4',
-      photoFrameTheme: 'theme1',
-      photoURL: 'https://cdn.pixabay.com/photo/2022/03/27/11/23/cat-7094808_960_720.jpg',
-      weather: 'hazy',
-      feeling: 'nice',
-      text: ' I met so cute cat on the load that infront of my house. His caractor is so honiesty.I met so cute cat on the load that infront of my house. His caractor is so honiesty',
-      freeMemo: 'memo text',
-    },
-  },
 });
 
 export interface IData {

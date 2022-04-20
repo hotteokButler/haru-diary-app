@@ -1,7 +1,7 @@
-import React, { HTMLFactory, useRef } from 'react';
+import React, { HTMLFactory, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { passwordRegex } from '../common/global_state';
+import { IData, passwordRegex } from '../common/global_state';
 import {
   LogInSection,
   LogInWrap,
@@ -56,6 +56,7 @@ const RegisterModal = ({ getFirebaseAuth, regexCheck, registerModal }: IRegister
   const newUserEmail = useRef<HTMLInputElement>(null);
   const newUserPwd = useRef<HTMLInputElement>(null);
   const newUserName = useRef<HTMLInputElement>(null);
+  //
   const registerNewUser = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (regexCheck(newUserEmail?.current?.value!, newUserPwd?.current?.value!)) {

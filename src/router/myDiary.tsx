@@ -1,12 +1,15 @@
-import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { addBtnState, listBtnState } from '../common/global_state';
+import { IProps } from '../App';
+import { addBtnState, IData, listBtnState, loginUserId } from '../common/global_state';
 import { MainBoard } from '../common/shareStyle';
 import DiaryEditForm from '../components/diary/diary_edit_from';
 import DiaryList from '../components/diary/diary_list';
 import bg_pattern from '../images/bg_pattern.svg';
 import maker_purple from '../images/marker/marker_purple.png';
+import { ILocationHistory } from './main';
 
 const DiaryMainBoard = styled(MainBoard)``;
 
@@ -51,10 +54,11 @@ const DiaryToggleButton = styled.button<{ isActive: boolean }>`
   }
 `;
 
-const MyDiary = () => {
+const MyDiary = ({ diaryRepository }: IProps) => {
   const [diaryListBtn, setDiaryListBtn] = useRecoilState(listBtnState);
   const [diaryAddBtn, setDiaryAddBtn] = useRecoilState(addBtnState);
-
+  const [allDiaryList, setAllDiaryList] = useState();
+  const userId = useRecoilValue(loginUserId);
   const onButtunClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { id },
@@ -67,6 +71,19 @@ const MyDiary = () => {
       setDiaryListBtn((prev) => !prev);
     }
   };
+
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+
+    const stopSync = diaryRepository?.syncDiaryData(userId, (diaryList: any) => {
+      setAllDiaryList(diaryList);
+    });
+
+    return () => stopSync();
+  }, [userId, diaryRepository]);
+  //
   return (
     <DiaryMainBoard bgPattern={bg_pattern}>
       <DiaryToggleBtns>
@@ -80,8 +97,10 @@ const MyDiary = () => {
         </DiaryToggleButton>
       </DiaryToggleBtns>
       <DiaryCardSection>
-        {diaryListBtn && <DiaryList />}
-        {diaryAddBtn && <DiaryEditForm />}
+        {diaryListBtn && (
+          <DiaryList allDiaryList={allDiaryList} diaryRepository={diaryRepository} />
+        )}
+        {diaryAddBtn && <DiaryEditForm diaryRepository={diaryRepository} />}
       </DiaryCardSection>
     </DiaryMainBoard>
   );
