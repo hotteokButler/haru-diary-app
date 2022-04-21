@@ -226,4 +226,9 @@ const DeleteButton = styled.button`
 
 const FixButton = styled(DeleteButton)`
   top: 45px;
+
+  @media (max-width: 410px) {
+    top: 10px;
+    right: 65px;
+  }
 `;

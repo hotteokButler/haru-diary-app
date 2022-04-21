@@ -47,4 +47,8 @@ export const WeatherPreview = styled(WeatherIcon)`
   animation: none;
   right: auto;
   left: 283px;
+  @media (max-width: 410px) {
+    top: 65%;
+    left: 200px;
+  }
 `;

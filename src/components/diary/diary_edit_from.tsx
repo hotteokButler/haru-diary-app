@@ -70,7 +70,7 @@ function DiaryEditForm({ diaryRepository }: IProps) {
         freeMemo: 'unset',
       };
 
-      diaryRepository?.saveDiary(userID, 'diary' as IPath, newCard);
+      diaryRepository?.saveDiary(userID, IPath.diary, newCard);
       event.currentTarget.reset();
       setAddBtnState((prev) => !prev);
       setListBtnState((prev) => !prev);
@@ -216,6 +216,20 @@ const DiaryEditFormElem = styled.form`
     color: #fff;
     padding: 0;
   }
+  @media (max-width: 410px) {
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin: 0 0 10px;
+    }
+
+    input,
+    select {
+      width: 80%;
+    }
+  }
 `;
 
 const DiaryTitle = styled.div`
@@ -258,6 +272,11 @@ const DiaryKeyWord = styled(DiaryTitle)`
   input[type='text']::placeholder {
     font-size: 12px;
   }
+  @media (max-width: 410px) {
+    input[type='text'] {
+      width: 80%;
+    }
+  }
 `;
 
 const DiaryBtns = styled.div`
@@ -287,5 +306,12 @@ const DiarySubmitBtn = styled.button`
   &:hover {
     color: #fcfcfc;
     background-color: ${(props) => props.theme.liBgColor};
+  }
+
+  @media (max-width: 410px) {
+    font-size: 13px;
+    span:first-child {
+      display: none;
+    }
   }
 `;

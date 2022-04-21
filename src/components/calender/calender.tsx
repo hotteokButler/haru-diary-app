@@ -123,7 +123,7 @@ const CalenderTitle = styled.h2`
   text-align: center;
   & span {
     display: inline-block;
-    width: 80px;
+    width: 60px;
   }
 `;
 

@@ -25,7 +25,6 @@ export default memo(Day);
 //css
 export const DayElem = styled.p<IDayElem>`
   position: relative;
-
   padding: 0.5em;
   width: calc(100% / 7);
   height: ${(props) => (props.check === 'week' ? '35px' : '55px')};
@@ -48,5 +47,16 @@ export const DayElem = styled.p<IDayElem>`
 
   &:nth-child(7n + 1) {
     color: #f48673;
+  }
+
+  @media (max-width: 410px) {
+    height: ${(props) => (props.check === 'week' ? '25px' : '55px')};
+    padding: 0.3em 0.5em;
+    cursor: ${(props) => (props.check === 'week' ? 'default' : 'pointer')};
+    & span {
+      display: inline-block;
+      width: 100%;
+      font-size: ${(props) => (props.check === 'week' ? '12px' : '11px')};
+    }
   }
 `;

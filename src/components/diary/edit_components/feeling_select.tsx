@@ -54,10 +54,19 @@ const DiaryFeeling = styled.div`
   select {
     padding: 5px 15px;
   }
+  @media (max-width: 410px) {
+    label {
+      margin: 0 24px 0 10px;
+    }
+  }
 `;
 
 const FeelingPreview = styled(WeatherPreview)`
   width: 30px;
   height: 30px;
   left: 286px;
+  @media (max-width: 410px) {
+    top: 65%;
+    left: 200px;
+  }
 `;
