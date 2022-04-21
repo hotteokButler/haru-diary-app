@@ -36,7 +36,7 @@ class FirebaseAuth {
   loginWithUserEmail(email: string, password: string) {
     signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential.user);
+        console.log('success');
       })
       .catch((error) => {
         console.log(error + 'error');
@@ -55,8 +55,6 @@ class FirebaseAuth {
   setUserName(userName: string) {
     updateProfile(this.auth.currentUser, {
       displayName: userName,
-    }).then((arr: any) => {
-      console.log(arr);
     });
   }
 
