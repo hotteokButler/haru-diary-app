@@ -10,15 +10,16 @@ import {
 import { IData, loginUserId } from '../../common/global_state';
 import { CalanderMaskingL } from '../../common/shareStyle';
 import defaultFrame from '../../images/theme0.png';
+import { IPath } from '../../service/firebase_repository';
 
 //interface
 interface IDiaryCard extends IData {
   firebaseDB?: any;
   diaryRepository?: {
-    syncDiaryData(userId: string, onUpdate: (data: any) => any): any;
-    saveDiary(userId: string, diaryData: IData): void;
-    removeDiary(userId: string, cardId: string): void;
-    readDiary(uid: string): void;
+    syncDiaryData(userId: string, path: IPath, onUpdate: (data: any) => any): any;
+    saveDiary(userId: string, path: IPath, diaryData: IData): void;
+    removeDiary(userId: string, path: IPath, cardId: string): void;
+    readDiary(uid: string, path: IPath): void;
   };
 }
 
@@ -54,7 +55,7 @@ function DiaryCard({
   }, [publishedDate]);
 
   const deleteDiary = () => {
-    diaryRepository?.removeDiary(userID, id);
+    diaryRepository?.removeDiary(userID, IPath.diary, id);
   };
   return (
     <CardLi cradFrame={checkPhotoFrame(photoFrameTheme)}>

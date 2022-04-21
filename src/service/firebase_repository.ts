@@ -17,8 +17,8 @@ class DiaryRepository {
   constructor() {
     this.firebaseDB = getDatabase();
   }
-  syncDiaryData(userId: string, onUpdate: (data: any) => any) {
-    const query = ref(this.firebaseDB, `${userId}/diary`);
+  syncDiaryData(userId: string, path: IPath, onUpdate: (data: any) => any) {
+    const query = ref(this.firebaseDB, `${userId}/${path}`);
     onValue(query, (snapshot: DataSnapshot) => {
       const data = snapshot.val();
       data && onUpdate(data);
@@ -27,9 +27,9 @@ class DiaryRepository {
     return () => off(query);
   }
 
-  readDiary(uid: string) {
+  readDiary(uid: string, path: IPath) {
     const dbRef = ref(this.firebaseDB);
-    get(child(dbRef, `${uid}/diary`))
+    get(child(dbRef, `${uid}/${path}`))
       .then((snapshot: any) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
@@ -42,13 +42,19 @@ class DiaryRepository {
       });
   }
 
-  saveDiary(userId: string, diaryData: IData) {
-    set(ref(this.firebaseDB, `${userId}/diary/${diaryData.id}`), diaryData);
+  saveDiary(userId: string, path: IPath, diaryData: IData) {
+    set(ref(this.firebaseDB, `${userId}/${path}/${diaryData.id}`), diaryData);
   }
 
-  removeDiary(userId: string, cardId: string) {
-    remove(ref(this.firebaseDB, `${userId}/diary/${cardId}`));
+  removeDiary(userId: string, path: IPath, cardId: string) {
+    remove(ref(this.firebaseDB, `${userId}/${path}/${cardId}`));
   }
 }
 
 export default DiaryRepository;
+
+export enum IPath {
+  diary = 'diary',
+  memo = 'memo',
+  habbit = 'habbit',
+}

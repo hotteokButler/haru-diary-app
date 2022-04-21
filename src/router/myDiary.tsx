@@ -8,6 +8,7 @@ import DiaryEditForm from '../components/diary/diary_edit_from';
 import DiaryList from '../components/diary/diary_list';
 import bg_pattern from '../images/bg_pattern.svg';
 import maker_purple from '../images/marker/marker_purple.png';
+import { IPath } from '../service/firebase_repository';
 
 function MyDiary({ diaryRepository }: IProps) {
   const [diaryListBtn, setDiaryListBtn] = useRecoilState(listBtnState);
@@ -32,7 +33,7 @@ function MyDiary({ diaryRepository }: IProps) {
       return;
     }
 
-    const stopSync = diaryRepository?.syncDiaryData(userId, (diaryList: any) => {
+    const stopSync = diaryRepository?.syncDiaryData(userId, IPath.diary, (diaryList: any) => {
       setAllDiaryList(diaryList);
     });
 

@@ -6,6 +6,7 @@ import { IProps } from '../../App';
 import { checkMakingTape, checkPhotoFrame } from '../../common/global_function';
 import { addBtnState, listBtnState, loginUserId } from '../../common/global_state';
 import { CalanderMaskingL, CalanderMaskingR, LoadingSpinner } from '../../common/shareStyle';
+import { IPath } from '../../service/firebase_repository';
 import ImageUploader from '../../service/image_uploader';
 import FeelingSelector from './edit_components/feeling_select';
 import MaskingTapeSelector from './edit_components/makingTape_selector';
@@ -69,7 +70,7 @@ function DiaryEditForm({ diaryRepository }: IProps) {
         freeMemo: 'unset',
       };
 
-      diaryRepository?.saveDiary(userID, newCard);
+      diaryRepository?.saveDiary(userID, 'diary' as IPath, newCard);
       event.currentTarget.reset();
       setAddBtnState((prev) => !prev);
       setListBtnState((prev) => !prev);

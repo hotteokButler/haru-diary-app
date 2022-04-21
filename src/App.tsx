@@ -2,6 +2,7 @@ import { User, UserCredential } from 'firebase/auth';
 import { IData } from './common/global_state';
 import { GlobalStyle } from './common/reset';
 import RootRouter from './router/rootRouter';
+import { IPath } from './service/firebase_repository';
 
 export interface IProps {
   getFirebaseAuth?: {
@@ -17,10 +18,10 @@ export interface IProps {
   firebaseApp?: any;
   firebaseDB?: any;
   diaryRepository?: {
-    syncDiaryData(userId: string, onUpdate: (data: any) => any): any;
-    saveDiary(userId: string, diaryData: IData): void;
-    removeDiary(userId: string, cardId: string): void;
-    readDiary(uid: string): void;
+    syncDiaryData(userId: string, path: IPath, onUpdate: (data: any) => any): any;
+    saveDiary(userId: string, path: IPath, diaryData: IData): void;
+    removeDiary(userId: string, path: IPath, cardId: string): void;
+    readDiary(uid: string, path: IPath): void;
   };
 }
 
