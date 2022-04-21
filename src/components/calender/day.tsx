@@ -5,6 +5,24 @@ interface IDayElem {
   check: string;
 }
 
+interface IDayProps {
+  check?: string;
+  text: number | string | undefined;
+  className?: string;
+}
+
+function Day({ check, text }: IDayProps) {
+  return (
+    <DayElem check={check!}>
+      <span>{text}</span>
+      <span>{check === 'today' && '😉'}</span>
+    </DayElem>
+  );
+}
+
+export default memo(Day);
+
+//css
 export const DayElem = styled.p<IDayElem>`
   position: relative;
 
@@ -32,20 +50,3 @@ export const DayElem = styled.p<IDayElem>`
     color: #f48673;
   }
 `;
-
-interface IDayProps {
-  check?: string;
-  text: number | string | undefined;
-  className?: string;
-}
-
-const Day = memo(({ check, text }: IDayProps) => {
-  return (
-    <DayElem check={check!}>
-      <span>{text}</span>
-      <span>{check === 'today' && '😉'}</span>
-    </DayElem>
-  );
-});
-
-export default Day;

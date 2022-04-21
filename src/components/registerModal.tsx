@@ -1,7 +1,5 @@
-import React, { HTMLFactory, useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import React, { memo, useRef } from 'react';
 import styled from 'styled-components';
-import { IData, passwordRegex } from '../common/global_state';
 import {
   LogInSection,
   LogInWrap,
@@ -10,48 +8,13 @@ import {
   Button,
 } from '../common/shareStyle';
 
-const RegisterSection = styled(LogInSection)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-`;
-
-const RegisterWrap = styled(LogInWrap)`
-  width: 85%;
-`;
-
-const RegisterForm = styled(LogInForm)`
-  label span {
-    width: 18%;
-    margin: 0 0 4px;
-    font-size: 0.9rem;
-    line-height: 1.1rem;
-    vertical-align: bottom;
-    text-align: left;
-  }
-  label span.desc {
-    display: block;
-    width: 100%;
-    margin: 0 0 25px;
-    font-size: 12px;
-    text-align: right;
-    color: ${(props) => props.theme.lightBorwnColor};
-  }
-  label input {
-    width: 82%;
-    margin: 0 0 4px;
-  }
-`;
-
 interface IRegisterModalProps {
   getFirebaseAuth: any;
   regexCheck: (email: string, pwd: string) => boolean;
   registerModal: () => void;
 }
 
-const RegisterModal = ({ getFirebaseAuth, regexCheck, registerModal }: IRegisterModalProps) => {
+function RegisterModal({ getFirebaseAuth, regexCheck, registerModal }: IRegisterModalProps) {
   //
   const newUserEmail = useRef<HTMLInputElement>(null);
   const newUserPwd = useRef<HTMLInputElement>(null);
@@ -107,5 +70,42 @@ const RegisterModal = ({ getFirebaseAuth, regexCheck, registerModal }: IRegister
       </RegisterWrap>
     </RegisterSection>
   );
-};
-export default RegisterModal;
+}
+export default memo(RegisterModal);
+
+//css
+
+const RegisterSection = styled(LogInSection)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+`;
+
+const RegisterWrap = styled(LogInWrap)`
+  width: 85%;
+`;
+
+const RegisterForm = styled(LogInForm)`
+  label span {
+    width: 18%;
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    line-height: 1.1rem;
+    vertical-align: bottom;
+    text-align: left;
+  }
+  label span.desc {
+    display: block;
+    width: 100%;
+    margin: 0 0 25px;
+    font-size: 12px;
+    text-align: right;
+    color: ${(props) => props.theme.lightBorwnColor};
+  }
+  label input {
+    width: 82%;
+    margin: 0 0 4px;
+  }
+`;

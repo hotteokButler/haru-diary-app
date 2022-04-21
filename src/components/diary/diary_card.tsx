@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled, { keyframes } from 'styled-components';
 import {
@@ -10,8 +10,78 @@ import {
 import { IData, loginUserId } from '../../common/global_state';
 import { CalanderMaskingL } from '../../common/shareStyle';
 import defaultFrame from '../../images/theme0.png';
-import sunny from '../../images/weather/sunny.svg';
 
+//interface
+interface IDiaryCard extends IData {
+  firebaseDB?: any;
+  diaryRepository?: {
+    syncDiaryData(userId: string, onUpdate: (data: any) => any): any;
+    saveDiary(userId: string, diaryData: IData): void;
+    removeDiary(userId: string, cardId: string): void;
+    readDiary(uid: string): void;
+  };
+}
+
+//component
+function DiaryCard({
+  id,
+  publishedDate,
+  title,
+  tapeTheme,
+  photoFrameTheme,
+  photoURL,
+  weather,
+  feeling,
+  text,
+  diaryRepository,
+}: IDiaryCard) {
+  //
+  const [parsedDate, setParsedDate] = useState<string | number>();
+  const userID = useRecoilValue(loginUserId);
+  const parseDate = useCallback(
+    (getDate: number) => {
+      const date = new Date(getDate);
+      const convertedDay = date.toString().split(' ')[0];
+      const convertedDate = date.toISOString().slice(0, 10).split('-').join('.');
+      const formatedDate = `[${convertedDate}]  ${convertedDay}`;
+      setParsedDate(formatedDate);
+    },
+    [publishedDate]
+  );
+
+  useEffect(() => {
+    parseDate(publishedDate);
+  }, [publishedDate]);
+
+  const deleteDiary = () => {
+    diaryRepository?.removeDiary(userID, id);
+  };
+  return (
+    <CardLi cradFrame={checkPhotoFrame(photoFrameTheme)}>
+      <CardFrame>
+        <CardMasking image={checkMakingTape(tapeTheme)} />
+        <CardDate>
+          {parsedDate}
+          <WeatherIcon weathers={checkWeatherIcon(weather)} />
+          <FeelingIcon feeling={checkFeelingIcon(feeling)} />
+        </CardDate>
+        <CardImg>
+          <img src={photoURL} alt="" />
+        </CardImg>
+        <CardDescList>
+          <CardDescTitle>{title}</CardDescTitle>
+          <CardDescText>{text}</CardDescText>
+        </CardDescList>
+      </CardFrame>
+      <DeleteButton onClick={deleteDiary}>삭제</DeleteButton>
+      <FixButton>수정</FixButton>
+    </CardLi>
+  );
+}
+
+export default memo(DiaryCard);
+
+//css
 //animation
 
 const emojiMotion = keyframes`
@@ -156,75 +226,3 @@ const DeleteButton = styled.button`
 const FixButton = styled(DeleteButton)`
   top: 45px;
 `;
-
-//interface
-interface IDiaryCard extends IData {
-  firebaseDB?: any;
-  diaryRepository?: {
-    syncDiaryData(userId: string, onUpdate: (data: any) => any): any;
-    saveDiary(userId: string, diaryData: IData): void;
-    removeDiary(userId: string, cardId: string): void;
-    readDiary(uid: string): void;
-  };
-}
-
-//component
-const DiaryCard = ({
-  id,
-  publishedDate,
-  title,
-  keyword,
-  tapeTheme,
-  photoFrameTheme,
-  photoURL,
-  weather,
-  feeling,
-  text,
-  freeMemo,
-  diaryRepository,
-}: IDiaryCard) => {
-  //
-  const [parsedDate, setParsedDate] = useState<string | number>();
-  const userID = useRecoilValue(loginUserId);
-  const parseDate = useCallback(
-    (getDate: number) => {
-      const date = new Date(getDate);
-      const convertedDay = date.toString().split(' ')[0];
-      const convertedDate = date.toISOString().slice(0, 10).split('-').join('.');
-      const formatedDate = `[${convertedDate}]  ${convertedDay}`;
-      setParsedDate(formatedDate);
-    },
-    [publishedDate]
-  );
-
-  useEffect(() => {
-    parseDate(publishedDate);
-  }, [publishedDate]);
-
-  const deleteDiary = () => {
-    diaryRepository?.removeDiary(userID, id);
-  };
-  return (
-    <CardLi cradFrame={checkPhotoFrame(photoFrameTheme)}>
-      <CardFrame>
-        <CardMasking image={checkMakingTape(tapeTheme)} />
-        <CardDate>
-          {parsedDate}
-          <WeatherIcon weathers={checkWeatherIcon(weather)} />
-          <FeelingIcon feeling={checkFeelingIcon(feeling)} />
-        </CardDate>
-        <CardImg>
-          <img src={photoURL} alt="" />
-        </CardImg>
-        <CardDescList>
-          <CardDescTitle>{title}</CardDescTitle>
-          <CardDescText>{text}</CardDescText>
-        </CardDescList>
-      </CardFrame>
-      <DeleteButton onClick={deleteDiary}>삭제</DeleteButton>
-      <FixButton>수정</FixButton>
-    </CardLi>
-  );
-};
-
-export default DiaryCard;

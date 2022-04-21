@@ -3,7 +3,7 @@ import { IData } from './common/global_state';
 import { GlobalStyle } from './common/reset';
 import RootRouter from './router/rootRouter';
 
-export type IProps = {
+export interface IProps {
   getFirebaseAuth?: {
     createUserWithEmailBase(email: string, password: string, profile?: string | null): void;
     loginWithUserEmail(email: string, password: string): void;
@@ -22,7 +22,7 @@ export type IProps = {
     removeDiary(userId: string, cardId: string): void;
     readDiary(uid: string): void;
   };
-};
+}
 
 const App = ({ getFirebaseAuth, diaryRepository }: IProps) => {
   return (

@@ -5,51 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { defaultCalenderDate, setCalender, weeks } from '../../service/calender_set';
 import Day from './day';
 
-const CalenderSection = styled.section`
-  padding: 2em;
-`;
-const CalenderTitle = styled.h2`
-  position: relative;
-  margin: 0 0 1em;
-  font-size: 1.2rem;
-  border-bottom: 1px solid ${(props) => props.theme.liBgColor};
-  text-align: center;
-  & span {
-    display: inline-block;
-    width: 100px;
-  }
-`;
-
-const CalenderButton = styled.button`
-  position: relative;
-  display: inline-block;
-  margin: 0 1em;
-  padding: 0.2em 0.5em 0.5em 0.5em;
-  color: ${(props) => props.theme.accentColor};
-  cursor: pointer;
-  background-color: transparent;
-  vertical-align: middle;
-  &:hover {
-    color: ${(props) => props.theme.pinkBeigeColor};
-  }
-  &.todayButton {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-`;
-
-const CalenderBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  background-color: ${(props) => props.theme.mainBoardColor};
-  padding: 0.5em;
-  text-align: right;
-  border-radius: 4px;
-`;
-
-const Calender = () => {
+function Calender() {
   const weekend = useRecoilValue(weeks);
   const dates = useRecoilValue(setCalender);
   const [month, setMonth] = useRecoilState(defaultCalenderDate);
@@ -151,6 +107,51 @@ const Calender = () => {
       </CalenderBox>
     </CalenderSection>
   );
-};
+}
 
 export default Calender;
+
+//css
+const CalenderSection = styled.section`
+  padding: 2em;
+`;
+const CalenderTitle = styled.h2`
+  position: relative;
+  margin: 0 0 1em;
+  font-size: 1.2rem;
+  border-bottom: 1px solid ${(props) => props.theme.liBgColor};
+  text-align: center;
+  & span {
+    display: inline-block;
+    width: 80px;
+  }
+`;
+
+const CalenderButton = styled.button`
+  position: relative;
+  display: inline-block;
+  margin: 0 1em;
+  padding: 0.2em 0.5em 0.5em 0.5em;
+  color: ${(props) => props.theme.accentColor};
+  cursor: pointer;
+  background-color: transparent;
+  vertical-align: middle;
+  &:hover {
+    color: ${(props) => props.theme.pinkBeigeColor};
+  }
+  &.todayButton {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+`;
+
+const CalenderBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  background-color: ${(props) => props.theme.mainBoardColor};
+  padding: 0.5em;
+  text-align: right;
+  border-radius: 4px;
+`;
