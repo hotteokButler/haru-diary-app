@@ -25,10 +25,12 @@ class FirebaseAuth {
     createUserWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
       })
       .then(() => this.setUserName(profile!))
-      .catch((error) => console.log(error + 'error'));
+      .catch((error) => {
+        console.log(error + 'error');
+        alert('잘못된 접근입니다, 아이디 및 비밀번호를 다시 확인해주세요');
+      });
   }
 
   loginWithUserEmail(email: string, password: string) {
@@ -36,7 +38,10 @@ class FirebaseAuth {
       .then((userCredential) => {
         console.log(userCredential.user);
       })
-      .catch((error) => console.log(error + 'error'));
+      .catch((error) => {
+        console.log(error + 'error');
+        alert('잘못된 접근입니다, 아이디 및 비밀번호를 다시 확인해주세요');
+      });
   }
 
   loginWithGoogle() {
