@@ -57,7 +57,7 @@ function Main({ getFirebaseAuth, diaryRepository }: IProps) {
       <MainPageContainer>
         {mainMatch?.pathname === '/main' && (
           <>
-            <MainPageCalender />
+            <MainPageCalender diaryRepository={diaryRepository} />
             <TodayPlan />
           </>
         )}

@@ -1,5 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { todayPlanState } from '../../common/global_state';
 
 interface IDayElem {
   check: string;
@@ -7,16 +9,24 @@ interface IDayElem {
 
 interface IDayProps {
   check?: string;
-  text: number | string | undefined;
+  text?: number | string | undefined;
   className?: string;
 }
 
 function Day({ check, text }: IDayProps) {
+  const [dayId, setDayId] = useState('');
+  const setTodayPlanModalState = useSetRecoilState(todayPlanState);
+
+  const onClick = () => {
+    setTodayPlanModalState((prev: boolean) => !prev);
+  };
   return (
-    <DayElem check={check!}>
-      <span>{text}</span>
-      <span>{check === 'today' && '😉'}</span>
-    </DayElem>
+    <>
+      <DayElem check={check!} id={dayId ? dayId : 'no-Id'} onClick={onClick}>
+        <span>{text}</span>
+        <span>{check === 'today' && '😉'}</span>
+      </DayElem>
+    </>
   );
 }
 

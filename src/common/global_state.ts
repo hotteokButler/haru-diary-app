@@ -18,14 +18,14 @@ export const loginUserId = atom({
 
 export interface IData {
   id: string;
-  publishedDate: number;
-  title: string;
-  keyword: string;
-  tapeTheme: string;
-  photoFrameTheme: string;
-  photoURL: string;
-  weather: string;
-  feeling: string;
+  publishedDate?: number;
+  title?: string;
+  keyword?: string;
+  tapeTheme?: string;
+  photoFrameTheme?: string;
+  photoURL?: string;
+  weather?: string;
+  feeling?: string;
   text: string;
   freeMemo?: string;
 }
@@ -37,4 +37,9 @@ export const listBtnState = atom({
 export const addBtnState = atom({
   key: 'addBtnState',
   default: false,
+});
+
+export const todayPlanState = atom({
+  key: 'todayPlanState',
+  default: true,
 });

@@ -4,13 +4,14 @@ import tape2 from '../../images/tape10.png';
 import bg_pattern from '../../images/bg_pattern.svg';
 import Calender from './calender';
 import styled from 'styled-components';
+import { IProps } from '../../App';
 
-function MainPageCalender() {
+function MainPageCalender({ diaryRepository }: IProps) {
   return (
     <CalenderMainBoard bgPattern={bg_pattern}>
       <CalanderMaskingR image={tape1} />
       <CalanderMaskingL image={tape2} />
-      <Calender />
+      <Calender diaryRepository={diaryRepository} />
     </CalenderMainBoard>
   );
 }

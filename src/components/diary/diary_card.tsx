@@ -51,7 +51,7 @@ function DiaryCard({
   );
 
   useEffect(() => {
-    parseDate(publishedDate);
+    parseDate(publishedDate!);
   }, [publishedDate]);
 
   const deleteDiary = () => {

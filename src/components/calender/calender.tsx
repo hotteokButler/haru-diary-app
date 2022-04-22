@@ -2,13 +2,17 @@ import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+import { IProps } from '../../App';
+import { todayPlanState } from '../../common/global_state';
 import { defaultCalenderDate, setCalender, weeks } from '../../service/calender_set';
+import SetTodayPlan from '../modal/set_today_plan';
 import Day from './day';
 
-function Calender() {
+function Calender({ diaryRepository }: IProps) {
   const weekend = useRecoilValue(weeks);
   const dates = useRecoilValue(setCalender);
   const [month, setMonth] = useRecoilState(defaultCalenderDate);
+  const todayPlanModalState = useRecoilValue(todayPlanState);
 
   const checkMonth = useCallback(
     (data: number): any => {
@@ -72,40 +76,43 @@ function Calender() {
   }, []);
 
   return (
-    <CalenderSection>
-      <CalenderTitle>
-        <CalenderButton onClick={onChangeMonth} id="prevMonth">
-          <i className="fa-solid fa-angle-left"></i>
-        </CalenderButton>
-        <span>{checkMonth(new Date(month).getMonth())}</span>
-        <CalenderButton onClick={onChangeMonth} id="nextMonth">
-          <i className="fa-solid fa-angle-right"></i>
-        </CalenderButton>
-        <CalenderButton className="todayButton" onClick={onChangeMonth} id="today">
-          Today
-        </CalenderButton>
-      </CalenderTitle>
-      <CalenderBox>
-        {weekend.map((week) => (
-          <Day key={uuidv4()} check="week" text={week} />
-        ))}
-      </CalenderBox>
-      <CalenderBox>
-        {dates.map((date) => (
-          <Day
-            key={uuidv4()}
-            check={
-              date === new Date().getDate() &&
-              new Date(month).getMonth() === new Date().getMonth() &&
-              new Date(month).getFullYear() === new Date().getFullYear()
-                ? 'today'
-                : 'day'
-            }
-            text={date}
-          />
-        ))}
-      </CalenderBox>
-    </CalenderSection>
+    <>
+      <CalenderSection>
+        <CalenderTitle>
+          <CalenderButton onClick={onChangeMonth} id="prevMonth">
+            <i className="fa-solid fa-angle-left"></i>
+          </CalenderButton>
+          <span>{checkMonth(new Date(month).getMonth())}</span>
+          <CalenderButton onClick={onChangeMonth} id="nextMonth">
+            <i className="fa-solid fa-angle-right"></i>
+          </CalenderButton>
+          <CalenderButton className="todayButton" onClick={onChangeMonth} id="today">
+            Today
+          </CalenderButton>
+        </CalenderTitle>
+        <CalenderBox>
+          {weekend.map((week) => (
+            <Day key={uuidv4()} check="week" text={week} />
+          ))}
+        </CalenderBox>
+        <CalenderBox>
+          {dates.map((date) => (
+            <Day
+              key={uuidv4()}
+              check={
+                date === new Date().getDate() &&
+                new Date(month).getMonth() === new Date().getMonth() &&
+                new Date(month).getFullYear() === new Date().getFullYear()
+                  ? 'today'
+                  : 'day'
+              }
+              text={date}
+            />
+          ))}
+        </CalenderBox>
+      </CalenderSection>
+      {todayPlanModalState && <SetTodayPlan diaryRepository={diaryRepository} />}
+    </>
   );
 }
 

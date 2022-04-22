@@ -56,5 +56,5 @@ export default DiaryRepository;
 export enum IPath {
   diary = 'diary',
   memo = 'memo',
-  habbit = 'habbit',
+  todayPlan = 'todayPlan',
 }
