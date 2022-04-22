@@ -9,7 +9,10 @@ const RootRouter = ({ getFirebaseAuth, diaryRepository }: IProps) => {
   return (
     <Routes>
       <Route path="/" element={<LogIn getFirebaseAuth={getFirebaseAuth} />} />
-      <Route path="/main" element={<Main getFirebaseAuth={getFirebaseAuth} />}>
+      <Route
+        path="/main"
+        element={<Main getFirebaseAuth={getFirebaseAuth} diaryRepository={diaryRepository} />}
+      >
         <Route path="/main/myDiary" element={<MyDiary diaryRepository={diaryRepository} />} />
         <Route path="/main/memo" element={<Memo />} />
       </Route>

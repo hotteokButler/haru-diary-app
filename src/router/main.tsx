@@ -6,12 +6,13 @@ import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { loginUserId } from '../common/global_state';
 import MainPageCalender from '../components/calender/mainPageBoard';
+import TodayPlan from '../components/todayPlan_list/today_plan';
 
 export interface ILocationHistory {
   id: string;
 }
 
-function Main({ getFirebaseAuth }: IProps) {
+function Main({ getFirebaseAuth, diaryRepository }: IProps) {
   const locationHistory = useLocation();
   const userStateHistory = locationHistory?.state as ILocationHistory;
   const navigator = useNavigate();
@@ -54,7 +55,12 @@ function Main({ getFirebaseAuth }: IProps) {
         </Nav>
       </Header>
       <MainPageContainer>
-        {mainMatch?.pathname === '/main' && <MainPageCalender />}
+        {mainMatch?.pathname === '/main' && (
+          <>
+            <MainPageCalender />
+            <TodayPlan />
+          </>
+        )}
       </MainPageContainer>
       <MainContainer>
         <Outlet />

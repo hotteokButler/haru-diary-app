@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { IProps } from '../App';
 import { emailRegex, passwordRegex } from '../common/global_state';
 import { LogInSection, LogInForm, LogInWrap, LogInTitle, Button } from '../common/shareStyle';
-import RegisterModal from '../components/registerModal';
+import RegisterModal from '../components/modal/registerModal';
 
 const LogIn = ({ getFirebaseAuth }: IProps) => {
   const userEmail = useRef<HTMLInputElement>(null);

@@ -6,7 +6,7 @@ import {
   LogInForm,
   LogInTitle as RegisterTitle,
   Button,
-} from '../common/shareStyle';
+} from '../../common/shareStyle';
 
 interface IRegisterModalProps {
   getFirebaseAuth: any;

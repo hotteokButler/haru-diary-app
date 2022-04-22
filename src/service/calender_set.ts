@@ -56,7 +56,7 @@ export const setCalender = selector({
     }
 
     for (let i = 1; i < 7 - thisLastDay; i++) {
-      nextDates.push(i++);
+      nextDates.push(i);
     }
 
     const dates = prevDates.concat(thisDates, nextDates);
