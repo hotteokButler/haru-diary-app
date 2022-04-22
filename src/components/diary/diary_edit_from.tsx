@@ -179,6 +179,9 @@ const DiaryEditSection = styled.section<{ framePreview?: string }>`
   border-radius: 2px;
   background: url(${(props) => props.framePreview});
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.05);
+  @media (min-width: 768px) {
+    width: 60%;
+  }
 `;
 
 const MaskingTapePreviewL = styled(CalanderMaskingL)``;

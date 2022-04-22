@@ -115,6 +115,13 @@ const CardLi = styled.li<{ cradFrame?: string }>`
     }
   }
   transition: 0.4s;
+
+  @media (min-width: 768px) {
+    width: 40%;
+  }
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
 `;
 
 const CardFrame = styled.div`

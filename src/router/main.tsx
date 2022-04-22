@@ -53,8 +53,10 @@ function Main({ getFirebaseAuth }: IProps) {
           </TabButton>
         </Nav>
       </Header>
-      <MainContainer>
+      <MainPageContainer>
         {mainMatch?.pathname === '/main' && <MainPageCalender />}
+      </MainPageContainer>
+      <MainContainer>
         <Outlet />
       </MainContainer>
     </MainWrap>
@@ -105,6 +107,15 @@ const Nav = styled(MainBoard)`
 const MainContainer = styled.section`
   margin: 0 0 20px;
 `;
+
+const MainPageContainer = styled(MainContainer)`
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 60px;
+  }
+`;
+
 const DiaryName = styled.h1`
   padding: 1em 0;
   font-size: 2em;

@@ -9,7 +9,7 @@ export const MainBoard = styled.section<{ bgPattern?: string }>`
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.8);
   background-repeat: repeat;
-  background-size: auto;
+  background-size: 530px 530px;
   background-image: url(${(props) => props.bgPattern});
 `;
 

@@ -73,6 +73,11 @@ const DiaryCardSection = styled.section`
   &::-webkit-scrollbar {
     display: none;
   }
+  @media (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
 `;
 
 const DiaryToggleBtns = styled.div`
