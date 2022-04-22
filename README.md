@@ -37,16 +37,22 @@ Calender UI
 ## Data 구조
 
     User ID
-    ⎿diary
-        ├ id : key (uid)
-          ├ id
-          ├ publishedDate
-          ├ title
-          ├ keyword
-          ├ tapeTheme
-          ├ photoTheme
-          ├ photoURL
-          ├ wheather
-          ├ feeling
-          ├ text
-          ├ freeMemo
+    ├ diary
+    ⎟   ├ id : key (uuid)
+    ⎟     ├ id
+    ⎟     ├ publishedDate
+    ⎟     ├ title
+    ⎟     ├ keyword
+    ⎟     ├ tapeTheme
+    ⎟     ├ photoTheme
+    ⎟     ├ photoURL
+    ⎟     ├ wheather
+    ⎟     ├ feeling
+    ⎟     ├ text
+    ⎟     ├ freeMemo
+    ├ habbit
+    ⎟   ├ excercise
+    ⎟   ├ water
+    ├ memo
+        ├ id : key (uuid)
+           ├ text
