@@ -219,7 +219,7 @@ const DiaryEditFormElem = styled.form`
     color: #fff;
     padding: 0;
   }
-  @media (max-width: 410px) {
+  @media (max-width: 420px) {
     div {
       display: flex;
       flex-direction: column;

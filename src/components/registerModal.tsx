@@ -85,6 +85,9 @@ const RegisterSection = styled(LogInSection)`
 
 const RegisterWrap = styled(LogInWrap)`
   width: 85%;
+  @media (max-width: 420px) {
+    width: 95%;
+  }
 `;
 
 const RegisterForm = styled(LogInForm)`
@@ -107,5 +110,18 @@ const RegisterForm = styled(LogInForm)`
   label input {
     width: 82%;
     margin: 0 0 4px;
+  }
+  @media (max-width: 420px) {
+    label span {
+      font-size: 13px;
+      line-height: 1.1rem;
+    }
+    label span.desc {
+      width: 100%;
+      font-size: 10px;
+      line-height: 1.5em;
+      text-align: right;
+      color: ${(props) => props.theme.lightBorwnColor};
+    }
   }
 `;
