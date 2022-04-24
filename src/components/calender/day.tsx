@@ -1,7 +1,7 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { todayPlanState } from '../../common/global_state';
+import { dayIdNum, todayPlanState } from '../../common/global_state';
 
 interface IDayElem {
   check: string;
@@ -16,13 +16,17 @@ interface IDayProps {
 
 function Day({ check, text, dayId }: IDayProps) {
   const setTodayPlanModalState = useSetRecoilState(todayPlanState);
+  const dayElemRef = useRef() as React.MutableRefObject<HTMLParagraphElement>;
+  const setDayId = useSetRecoilState(dayIdNum);
 
   const onClick = () => {
     setTodayPlanModalState((prev: boolean) => !prev);
+    setDayId(Number(dayElemRef.current.id));
   };
+  //
   return (
     <>
-      <DayElem check={check!} id={dayId ? `${dayId}` : 'no-Id'} onClick={onClick}>
+      <DayElem ref={dayElemRef} check={check!} id={dayId ? `${dayId}` : 'no-Id'} onClick={onClick}>
         <span>{text}</span>
         <span>{check === 'today' && '😉'}</span>
       </DayElem>

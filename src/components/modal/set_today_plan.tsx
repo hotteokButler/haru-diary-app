@@ -3,17 +3,22 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import { IProps } from '../../App';
-import { loginUserId, todayPlanState } from '../../common/global_state';
+import { dayIdNum, loginUserId, todayPlanState } from '../../common/global_state';
 import { IPath } from '../../service/firebase_repository';
 
 function SetTodayPlan({ diaryRepository }: IProps) {
   const textInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const submitButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
   const setTodayPlanModalState = useSetRecoilState(todayPlanState);
   const [preview, setPreview] = useState<string[]>([]);
   const userId = useRecoilValue(loginUserId);
+  const dayId = useRecoilValue(dayIdNum);
 
   const onClickCloseButton = () => {
     setTodayPlanModalState((prev) => !prev);
+  };
+  const onClickSubmitRef = () => {
+    submitButtonRef.current.click();
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,7 +26,7 @@ function SetTodayPlan({ diaryRepository }: IProps) {
     let newId = uuidv4();
     const newPlan = {
       id: newId,
-      publishedDate: Date.now(),
+      publishedDate: dayId || Date.now(),
       text: textInputRef.current.value || '',
     };
     diaryRepository?.saveDiary(userId, IPath.todayPlan, newPlan);
@@ -49,10 +54,14 @@ function SetTodayPlan({ diaryRepository }: IProps) {
               ref={textInputRef}
             />
           </div>
-          <button type="submit">입력하기</button>
+          <button type="submit" ref={submitButtonRef}>
+            입력하기
+          </button>
         </TodayPlanForm>
         <Buttons>
-          <button className="submitPlan">입력하기</button>
+          <button className="submitPlan" onClick={onClickSubmitRef}>
+            입력하기
+          </button>
           <button className="cloaseButton" onClick={onClickCloseButton}>
             닫기
           </button>

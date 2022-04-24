@@ -16,6 +16,11 @@ export const loginUserId = atom({
   default: '',
 });
 
+export const dayIdNum = atom({
+  key: 'dayIdNum',
+  default: Date.now(),
+});
+
 export interface IData {
   id: string;
   publishedDate?: number;
