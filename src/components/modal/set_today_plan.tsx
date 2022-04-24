@@ -17,15 +17,16 @@ function SetTodayPlan({ diaryRepository }: IProps) {
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(preview);
     setPreview((prev) => [...prev, `${textInputRef.current.value}`]);
     let newId = uuidv4();
     const newPlan = {
       id: newId,
+      publishedDate: Date.now(),
       text: textInputRef.current.value || '',
     };
     diaryRepository?.saveDiary(userId, IPath.todayPlan, newPlan);
   };
+
   return (
     <TodayPlanModalSection>
       <TodayPlanModal>

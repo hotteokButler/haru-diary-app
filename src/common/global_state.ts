@@ -41,5 +41,5 @@ export const addBtnState = atom({
 
 export const todayPlanState = atom({
   key: 'todayPlanState',
-  default: true,
+  default: false,
 });

@@ -11,10 +11,10 @@ interface IDayProps {
   check?: string;
   text?: number | string | undefined;
   className?: string;
+  dayId?: string | number;
 }
 
-function Day({ check, text }: IDayProps) {
-  const [dayId, setDayId] = useState('');
+function Day({ check, text, dayId }: IDayProps) {
   const setTodayPlanModalState = useSetRecoilState(todayPlanState);
 
   const onClick = () => {
@@ -22,7 +22,7 @@ function Day({ check, text }: IDayProps) {
   };
   return (
     <>
-      <DayElem check={check!} id={dayId ? dayId : 'no-Id'} onClick={onClick}>
+      <DayElem check={check!} id={dayId ? `${dayId}` : 'no-Id'} onClick={onClick}>
         <span>{text}</span>
         <span>{check === 'today' && '😉'}</span>
       </DayElem>

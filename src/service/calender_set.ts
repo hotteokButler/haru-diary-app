@@ -49,6 +49,10 @@ export const setCalender = selector({
     const thisDates: number[] = [...newArray.keys()].slice(1);
     const nextDates: number[] = [];
 
+    const prevM: any = {};
+    const thisM: any = {};
+    const nextM: any = {};
+
     if (prevLastDay !== 6) {
       for (let i = 0; i < prevLastDay + 1; i++) {
         prevDates.unshift(prevLastDate - i);
@@ -59,8 +63,14 @@ export const setCalender = selector({
       nextDates.push(i);
     }
 
-    const dates = prevDates.concat(thisDates, nextDates);
+    prevDates.map((date) => (prevM[new Date(viewYear, viewMonth - 1, date).valueOf()] = date));
+    thisDates.map((date) => (thisM[new Date(viewYear, viewMonth, date).valueOf()] = date));
+    nextDates.map((date) => (nextM[new Date(viewYear, viewMonth + 1, date).valueOf()] = date));
 
-    return dates;
+    const datesObject = { ...prevM, ...thisM, ...nextM };
+
+    // const dates = prevDates.concat(thisDates, nextDates);
+
+    return datesObject;
   },
 });

@@ -96,17 +96,18 @@ function Calender({ diaryRepository }: IProps) {
           ))}
         </CalenderBox>
         <CalenderBox>
-          {dates.map((date) => (
+          {Object.keys(dates).map((date) => (
             <Day
               key={uuidv4()}
               check={
-                date === new Date().getDate() &&
-                new Date(month).getMonth() === new Date().getMonth() &&
-                new Date(month).getFullYear() === new Date().getFullYear()
+                new Date(Number(date)).getFullYear() === new Date().getFullYear() &&
+                new Date(Number(date)).getMonth() === new Date().getMonth() &&
+                new Date(Number(date)).getDate() === new Date().getDate()
                   ? 'today'
                   : 'day'
               }
-              text={date}
+              text={dates[date]}
+              dayId={date}
             />
           ))}
         </CalenderBox>
