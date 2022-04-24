@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useRef } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,7 +10,6 @@ function SetTodayPlan({ diaryRepository }: IProps) {
   const textInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const submitButtonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
   const setTodayPlanModalState = useSetRecoilState(todayPlanState);
-  const [preview, setPreview] = useState<string[]>([]);
   const userId = useRecoilValue(loginUserId);
   const dayId = useRecoilValue(dayIdNum);
 
@@ -22,7 +21,6 @@ function SetTodayPlan({ diaryRepository }: IProps) {
   };
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setPreview((prev) => [...prev, `${textInputRef.current.value}`]);
     let newId = uuidv4();
     const newPlan = {
       id: newId,
@@ -36,13 +34,6 @@ function SetTodayPlan({ diaryRepository }: IProps) {
     <TodayPlanModalSection>
       <TodayPlanModal>
         <Title>오늘의 할일</Title>
-        <PlanPreview>
-          {preview.length !== 0 ? (
-            preview.map((data) => <li key={uuidv4()}>{data}</li>)
-          ) : (
-            <li className="defaultPreview">오늘의 할일이 없습니다</li>
-          )}
-        </PlanPreview>
         <TodayPlanForm onSubmit={onSubmit}>
           <div className="todayPlan">
             <label htmlFor="todayPlan">입력해주세요</label>

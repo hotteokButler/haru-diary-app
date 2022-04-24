@@ -48,3 +48,8 @@ export const todayPlanState = atom({
   key: 'todayPlanState',
   default: false,
 });
+
+export const isTodayPlan = atom<number[] | string[]>({
+  key: 'isTodayPlan',
+  default: [],
+});

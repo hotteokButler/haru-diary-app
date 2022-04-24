@@ -1,10 +1,11 @@
-import React, { memo, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import React, { memo, useEffect, useRef, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { dayIdNum, todayPlanState } from '../../common/global_state';
+import { dayIdNum, isTodayPlan, todayPlanState } from '../../common/global_state';
 
 interface IDayElem {
   check: string;
+  isRegistered?: boolean;
 }
 
 interface IDayProps {
@@ -18,17 +19,39 @@ function Day({ check, text, dayId }: IDayProps) {
   const setTodayPlanModalState = useSetRecoilState(todayPlanState);
   const dayElemRef = useRef() as React.MutableRefObject<HTMLParagraphElement>;
   const setDayId = useSetRecoilState(dayIdNum);
+  const [planState, setPlanState] = useState(false);
+  const planData = useRecoilValue(isTodayPlan);
 
   const onClick = () => {
     setTodayPlanModalState((prev: boolean) => !prev);
     setDayId(Number(dayElemRef.current.id));
   };
+
+  useEffect(() => {
+    if (planData.length !== 0) {
+      planData.map((date: any) => {
+        if (date === Number(dayId) && dayId !== undefined) {
+          setPlanState(true);
+        } else {
+          return;
+        }
+      });
+    } else if (planData.length === 0) {
+      setPlanState(false);
+    }
+  }, [planData, planState]);
   //
   return (
     <>
-      <DayElem ref={dayElemRef} check={check!} id={dayId ? `${dayId}` : 'no-Id'} onClick={onClick}>
+      <DayElem
+        ref={dayElemRef}
+        check={check!}
+        id={dayId ? `${dayId}` : 'no-Id'}
+        isRegistered={planState}
+        onClick={onClick}
+      >
         <span>{text}</span>
-        <span>{check === 'today' && '😉'}</span>
+        {planState && <span className="text"></span>}
       </DayElem>
     </>
   );
@@ -63,9 +86,14 @@ export const DayElem = styled.p<IDayElem>`
     color: #f48673;
   }
 
+  span.text {
+    padding: 0.5em;
+    background-color: ${(props) => props.isRegistered && props.theme.pinkColor};
+  }
+
   @media (max-width: 410px) {
     height: ${(props) => (props.check === 'week' ? '25px' : '55px')};
-    padding: 0.3em 0.5em;
+    padding: 0.3em;
     cursor: ${(props) => (props.check === 'week' ? 'default' : 'pointer')};
     & span {
       display: inline-block;

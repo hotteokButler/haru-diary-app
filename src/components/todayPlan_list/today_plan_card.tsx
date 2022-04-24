@@ -1,5 +1,4 @@
-import { faSmileBeam } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IProps } from '../../App';
 import { IPath } from '../../service/firebase_repository';
@@ -15,12 +14,15 @@ interface ITodoayPlanCard extends IProps {
 
 function TodayPlanCard({ diaryRepository, userId, data }: ITodoayPlanCard) {
   const [checkState, setCheckState] = useState(false);
+  //
   const onComplete = () => {
     setCheckState((prev) => !prev);
   };
   const onDelete = () => {
     diaryRepository?.removeDiary(userId!, IPath.todayPlan, data.id);
   };
+  useEffect(() => {}, [data]);
+
   return (
     <TodayElem>
       <Text isActive={checkState}>{data.text}</Text>

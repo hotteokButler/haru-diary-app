@@ -74,7 +74,6 @@ function Calender({ diaryRepository }: IProps) {
   useEffect(() => {
     checkMonth(new Date().getMonth());
   }, []);
-
   return (
     <>
       <CalenderSection>
