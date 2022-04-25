@@ -39,6 +39,10 @@ function DiaryCard({
   //
   const [parsedDate, setParsedDate] = useState<string | number>();
   const userID = useRecoilValue(loginUserId);
+  const [cardState, setCardState] = useState(false);
+  const onCardClick = () => {
+    setCardState((prev) => !prev);
+  };
   const parseDate = useCallback(
     (getDate: number) => {
       const date = new Date(getDate);
@@ -58,7 +62,11 @@ function DiaryCard({
     diaryRepository?.removeDiary(userID, IPath.diary, id);
   };
   return (
-    <CardLi cradFrame={checkPhotoFrame(photoFrameTheme)}>
+    <CardLi
+      cradFrame={checkPhotoFrame(photoFrameTheme)}
+      onClick={onCardClick}
+      isClicked={cardState}
+    >
       <CardFrame>
         <CardMasking image={checkMakingTape(tapeTheme)} />
         <CardDate>
@@ -71,7 +79,7 @@ function DiaryCard({
         </CardImg>
         <CardDescList>
           <CardDescTitle>{title}</CardDescTitle>
-          <CardDescText>{text}</CardDescText>
+          <CardDescText isClicked={cardState}>{text}</CardDescText>
         </CardDescList>
       </CardFrame>
       <DeleteButton onClick={deleteDiary}>삭제</DeleteButton>
@@ -95,14 +103,19 @@ const emojiMotion = keyframes`
 `;
 
 //style
-const CardLi = styled.li<{ cradFrame?: string }>`
-  position: relative;
+const CardLi = styled.li<{ cradFrame?: string; isClicked?: boolean }>`
+  position: ${(props) => (props.isClicked ? 'absolute' : 'relative')};
+  top: ${(props) => (props.isClicked ? '50%' : 'auto')};
+  left: ${(props) => (props.isClicked ? '50%' : 'auto')};
+  transform: ${(props) => (props.isClicked ? 'translate(-50%,-50%)' : 'translate(0,0)')};
   padding: 10px 10px 40px;
   width: 90%;
-  max-width: 450px;
+  max-width: ${(props) => (props.isClicked ? '650px' : '450px')};
   margin: 0 auto 50px;
+  z-index: ${(props) => (props.isClicked ? '99' : '1')};
   background: ${(props) => (props.cradFrame ? `url(${props.cradFrame})` : `url(${defaultFrame})`)};
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: ${(props) =>
+    props.isClicked ? ' 2px 3px 25px rgba(0, 0, 0, 0.4)' : ' 1px 2px 8px rgba(0, 0, 0, 0.08)'};
   border-radius: 2px;
   cursor: pointer;
   a {
@@ -117,15 +130,17 @@ const CardLi = styled.li<{ cradFrame?: string }>`
   transition: 0.4s;
 
   @media (min-width: 768px) {
-    width: 40%;
+    width: ${(props) => (props.isClicked ? '50%' : '40%')};
   }
   @media (min-width: 1200px) {
-    width: 30%;
+    width: ${(props) => (props.isClicked ? '45%' : '30%')};
   }
 `;
 
 const CardFrame = styled.div`
   padding: 50px 30px 10px;
+  height: 100%;
+  width: 100%;
   border: 1px solid #f4f4f4;
   background-color: #fcfcfc;
 `;
@@ -188,7 +203,6 @@ const CardDescTitle = styled.dt`
   position: relative;
   margin: 0 0 10px;
   display: inline-block;
-  z-index: 1;
   color: #000;
   ::before {
     position: absolute;
@@ -203,14 +217,16 @@ const CardDescTitle = styled.dt`
   }
 `;
 
-const CardDescText = styled.dd`
+const CardDescText = styled.dd<{ isClicked: boolean }>`
   display: -webkit-box;
   margin: 0 0 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
+  width: 100%;
+  overflow: ${(props) => (props.isClicked ? 'visible' : 'hidden')};
+  text-overflow: ${(props) => (props.isClicked ? 'unset' : 'ellipsis')};
+  -webkit-line-clamp: ${(props) => (props.isClicked ? 'none' : '3')};
   -webkit-box-orient: vertical;
   line-height: 1.3em;
+  word-break: keep-all;
   color: ${(props) => props.theme.textColor};
 `;
 
