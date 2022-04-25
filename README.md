@@ -15,6 +15,7 @@
 - react.js
 - Recoil
 - Router
+- styled-components
 - postman
 - Firebase
 - cloudinary
