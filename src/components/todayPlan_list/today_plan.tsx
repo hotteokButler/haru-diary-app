@@ -24,9 +24,6 @@ function TodayPlan({ diaryRepository }: IProps) {
         setPlanDate([
           ...Object.keys(todayPlan).map((data: any) => Number(todayPlan[data].publishedDate)),
         ]);
-        console.log(
-          Object.keys(todayPlan).map((data: any) => Number(todayPlan[data].publishedDate))
-        );
       }
     );
     return () => stopSyncTodo();

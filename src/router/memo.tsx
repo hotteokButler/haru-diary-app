@@ -1,5 +1,7 @@
+import MemoList from '../components/memo/memo_list';
+
 const Memo = () => {
-  return null;
+  return <MemoList />;
 };
 
 export default Memo;

@@ -51,7 +51,11 @@ function Day({ check, text, dayId }: IDayProps) {
         onClick={onClick}
       >
         <span>{text}</span>
-        {planState && <span className="text"></span>}
+        {planState && (
+          <span className="text">
+            <i className="fa-solid fa-clipboard-list"></i>
+          </span>
+        )}
       </DayElem>
     </>
   );
@@ -87,7 +91,11 @@ export const DayElem = styled.p<IDayElem>`
   }
 
   span.text {
+    display: inline-block;
+    margin: 0.1em;
     padding: 0.5em;
+    text-align: center;
+    color: #fcfcfc;
     background-color: ${(props) => props.isRegistered && props.theme.pinkColor};
   }
 

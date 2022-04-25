@@ -21,7 +21,6 @@ function TodayPlanCard({ diaryRepository, userId, data }: ITodoayPlanCard) {
   const onDelete = () => {
     diaryRepository?.removeDiary(userId!, IPath.todayPlan, data.id);
   };
-  useEffect(() => {}, [data]);
 
   return (
     <TodayElem>

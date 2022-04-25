@@ -50,9 +50,11 @@ Calender UI
     ⎟     ├ feeling
     ⎟     ├ text
     ⎟     ├ freeMemo
-    ├ habbit
-    ⎟   ├ excercise
-    ⎟   ├ water
+    ├ todayPlan
+    ⎟   ├ id
+    ⎟      ├ id
+    ⎟      ├ publishedDate
+    ⎟      ├ text
     ├ memo
         ├ id : key (uuid)
            ├ text

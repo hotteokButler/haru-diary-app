@@ -54,14 +54,12 @@ function Main({ getFirebaseAuth, diaryRepository }: IProps) {
           </TabButton>
         </Nav>
       </Header>
-      <MainPageContainer>
-        {mainMatch?.pathname === '/main' && (
-          <>
-            <MainPageCalender diaryRepository={diaryRepository} />
-            <TodayPlan diaryRepository={diaryRepository} />
-          </>
-        )}
-      </MainPageContainer>
+      {mainMatch?.pathname === '/main' && (
+        <MainPageContainer>
+          <MainPageCalender diaryRepository={diaryRepository} />
+          <TodayPlan diaryRepository={diaryRepository} />
+        </MainPageContainer>
+      )}
       <MainContainer>
         <Outlet />
       </MainContainer>
